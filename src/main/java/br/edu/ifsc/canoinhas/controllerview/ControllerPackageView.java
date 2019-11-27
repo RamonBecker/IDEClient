@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import br.edu.ifsc.canoinhas.App;
-import br.edu.ifsc.canoinhas.db.connection.controller.ControllerDBProjeto;
+import br.edu.ifsc.canoinhas.db.connection.controller.projeto.ControllerDBProjeto;
+import br.edu.ifsc.canoinhas.db.connection.controller.projeto.UpdateProjetoDaemon;
 import br.edu.ifsc.canoinhas.entities.Projeto;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import javafx.collections.FXCollections;
@@ -47,15 +48,27 @@ public class ControllerPackageView implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-//		ControllerDBProjeto controllerDBProjeto = ControllerDBProjeto.getInstance();
-//
-//		ObservableList<Projeto> listProjeto = FXCollections.observableArrayList();
-//
-//		listProjeto.addAll(controllerDBProjeto.getListProjeto());
-//
-//		tableColumnProject.setCellValueFactory(new PropertyValueFactory<Projeto, String>("nome"));
-//
-//		tableViewProject.setItems(listProjeto);
+
+		try {
+			Thread updateProjeto = new Thread(new UpdateProjetoDaemon());
+			updateProjeto.start();
+			updateProjeto.join();
+
+			ControllerDBProjeto controllerDBProjeto = ControllerDBProjeto.getInstance();
+			//
+			ObservableList<Projeto> listProjeto = FXCollections.observableArrayList();
+			//
+			listProjeto.addAll(controllerDBProjeto.getListProjeto());
+			//
+			tableColumnProject.setCellValueFactory(new PropertyValueFactory<Projeto, String>("nome"));
+			//
+			tableViewProject.setItems(listProjeto);
+
+		} catch (InterruptedException e) {
+
+			e.printStackTrace();
+		}
+
 	}
 
 	public void tableAction() {
@@ -86,7 +99,7 @@ public class ControllerPackageView implements Initializable {
 	public void nextViewClass() {
 
 		try {
-			
+
 			Stage myStage = (Stage) btnCreatePackage.getScene().getWindow();
 
 			Stage stage = new Stage();
@@ -96,9 +109,9 @@ public class ControllerPackageView implements Initializable {
 			Parent root = (Parent) fxmlLoader.load();
 
 			stage.setScene(new Scene(root));
-			
+
 			stage.show();
-			
+
 			myStage.close();
 
 		} catch (IOException e) {

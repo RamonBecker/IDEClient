@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 import javax.transaction.Transactional.TxType;
 
 import br.edu.ifsc.canoinhas.App;
-import br.edu.ifsc.canoinhas.db.connection.controller.ControllerDBProjeto;
+import br.edu.ifsc.canoinhas.db.connection.controller.projeto.ControllerDBProjeto;
 import br.edu.ifsc.canoinhas.entities.Classe;
 import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;

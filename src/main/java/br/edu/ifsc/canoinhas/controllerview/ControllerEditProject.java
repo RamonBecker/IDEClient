@@ -3,7 +3,7 @@ package br.edu.ifsc.canoinhas.controllerview;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import br.edu.ifsc.canoinhas.db.connection.controller.ControllerDBProjeto;
+import br.edu.ifsc.canoinhas.db.connection.controller.projeto.ControllerDBProjeto;
 import br.edu.ifsc.canoinhas.entities.Classe;
 import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;

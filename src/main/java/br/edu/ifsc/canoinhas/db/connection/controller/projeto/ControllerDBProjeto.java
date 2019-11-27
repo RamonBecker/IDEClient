@@ -1,4 +1,4 @@
-package br.edu.ifsc.canoinhas.db.connection.controller;
+package br.edu.ifsc.canoinhas.db.connection.controller.projeto;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -34,7 +34,7 @@ public class ControllerDBProjeto {
 		return controllerDBProjeto;
 	}
 
-	public void addProjetoRede(String nome, String location, String operation) {
+	public void submitProjetoAddServer(String nome, String location, String operation) {
 		try {
 
 			Socket server = new Socket(ipServer, portServer);
@@ -61,6 +61,12 @@ public class ControllerDBProjeto {
 
 	}
 
+	public void submitPacoteAddServer(String idProjeto, String nomeProjeto, String nomePacote, String operation) {
+		
+	}
+	
+	
+	
 	public void getAllProjeto() throws UnknownHostException, IOException {
 
 		Socket server = new Socket(ipServer, portServer);
@@ -160,7 +166,6 @@ public class ControllerDBProjeto {
 	}
 
 	public List<Projeto> getListProjeto() {
-		loadListProjeto();
 		return listProjeto;
 	}
 

@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
 import br.edu.ifsc.canoinhas.App;
-import br.edu.ifsc.canoinhas.db.connection.controller.ControllerDBProjeto;
+import br.edu.ifsc.canoinhas.db.connection.controller.projeto.ControllerDBProjeto;
 import br.edu.ifsc.canoinhas.entities.Projeto;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
@@ -61,7 +61,7 @@ public class ControllerProjetoView implements Initializable {
 
 		controllerDBProjeto = ControllerDBProjeto.getInstance();
 
-		controllerDBProjeto.addProjetoRede(txtNameProject.getText(), txtLocalProject.getText(), "add");
+		controllerDBProjeto.submitProjetoAddServer(txtNameProject.getText(), txtLocalProject.getText(), "add");
 
 		try {
 			controllerDBProjeto.getAllProjeto();
