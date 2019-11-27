@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsc.canoinhas.controllerview.ControllerResetRegisterUserView">
+   <children>
+      <AnchorPane prefHeight="2.0" prefWidth="600.0" AnchorPane.bottomAnchor="375.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <MenuBar prefHeight="25.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="Options">
+                  <items>
+                    <MenuItem fx:id="menuItemBack" mnemonicParsing="false" onAction="#back" text="Back" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </children>
+      </AnchorPane>
+      <VBox alignment="CENTER" fillWidth="false" layoutX="41.0" layoutY="55.0" prefHeight="313.0" prefWidth="518.0" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="41.0" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="55.0">
+         <children>
+            <AnchorPane prefHeight="341.0" prefWidth="509.0">
+               <children>
+                  <Label layoutX="123.0" layoutY="39.0" prefHeight="25.0" prefWidth="38.0" text="User: " />
+                  <Label layoutX="100.0" layoutY="79.0" text="New User:" />
+                  <Label layoutX="101.0" layoutY="115.0" text="Password:" />
+                  <Button fx:id="btnConfirmar" layoutX="191.0" layoutY="226.0" mnemonicParsing="false" onAction="#registerNewUserPassword" prefHeight="25.0" prefWidth="96.0" text="Confirmar" />
+                  <RadioButton fx:id="radioSenha" layoutX="187.0" layoutY="188.0" mnemonicParsing="false" onAction="#alterUserPassword" text="Redefinir Senha">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="group1" />
+                     </toggleGroup></RadioButton>
+                  <RadioButton fx:id="radioUsuario" layoutX="57.0" layoutY="188.0" mnemonicParsing="false" onAction="#alterUserPassword" text="Redefinir Usuário" toggleGroup="$group1" />
+                  <Label layoutX="71.0" layoutY="148.0" text="New Password: " />
+                  <TextField fx:id="txtUser" layoutX="161.0" layoutY="39.0" prefHeight="25.0" prefWidth="155.0" />
+                  <TextField fx:id="txtNewUser" layoutX="164.0" layoutY="75.0" prefHeight="25.0" prefWidth="155.0" />
+                  <PasswordField fx:id="txtPassword" layoutX="164.0" layoutY="111.0" prefHeight="25.0" prefWidth="155.0" />
+                  <PasswordField fx:id="txtNewPassword" layoutX="164.0" layoutY="144.0" prefHeight="25.0" prefWidth="155.0" />
+                  <RadioButton fx:id="radioCadastrar" layoutX="333.0" layoutY="188.0" mnemonicParsing="false" onAction="#alterUserPassword" text="Cadastrar" toggleGroup="$group1" />
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

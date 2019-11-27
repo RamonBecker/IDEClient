@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="835.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsc.canoinhas.controllerview.ControllerShowOcorrenciaView">
+   <children>
+      <VBox alignment="CENTER" fillWidth="false" layoutX="9.0" layoutY="28.0" prefHeight="484.0" prefWidth="827.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="28.0">
+         <children>
+            <AnchorPane prefHeight="484.0" prefWidth="842.0">
+               <children>
+                  <TableView fx:id="tableViewOcorrencia" layoutX="14.0" layoutY="105.0" onMouseClicked="#actionTableOcorrencia" prefHeight="255.0" prefWidth="803.0" AnchorPane.bottomAnchor="124.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="105.0">
+                    <columns>
+                      <TableColumn fx:id="tableColumnNomeVitima" prefWidth="155.0" text="Nome da vitima" />
+                        <TableColumn fx:id="tableColumnEndereco" prefWidth="327.0" text="Endereço" />
+                        <TableColumn fx:id="tableColumnGravidade" prefWidth="155.0" text="Gravidade" />
+                        <TableColumn fx:id="tableColumnStatus" prefWidth="173.0" text="Status" />
+                    </columns>
+                  </TableView>
+                  <Label layoutX="316.0" layoutY="38.0" text="Ocorrências em andamento" AnchorPane.bottomAnchor="426.0" AnchorPane.leftAnchor="316.0" AnchorPane.rightAnchor="340.0" AnchorPane.topAnchor="38.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="96.0" layoutY="398.0" text="Alterar Status da ocorrência:" />
+                  <TextField fx:id="txtStatusOcorrencia" layoutX="271.0" layoutY="394.0" prefHeight="25.0" prefWidth="165.0" />
+                  <Button fx:id="btnConcluirOcorrencia" layoutX="475.0" layoutY="389.0" mnemonicParsing="false" onAction="#ocorrenciaComplete" prefHeight="34.0" prefWidth="179.0" text="Concluido ocorrência" />
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+      <AnchorPane prefHeight="28.0" prefWidth="653.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <MenuBar prefHeight="25.0" prefWidth="653.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="Options">
+                  <items>
+                    <MenuItem fx:id="menuItemBack" mnemonicParsing="false" onAction="#back" text="Back" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

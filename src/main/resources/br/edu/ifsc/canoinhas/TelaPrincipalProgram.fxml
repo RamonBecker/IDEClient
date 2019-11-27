@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsc.canoinhas.controllerview.ControllerProgramPrincipalView">
+   <children>
+      <AnchorPane prefHeight="21.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <MenuBar prefHeight="25.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="Options">
+                  <items>
+                    <MenuItem fx:id="menuItemLogoff" mnemonicParsing="false" onAction="#logoff" text="Logoff" />
+                        <MenuItem fx:id="menuItemUserPassword" mnemonicParsing="false" onAction="#resetUserPassword" text="Change User and Password" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </children>
+      </AnchorPane>
+      <VBox alignment="TOP_RIGHT" layoutX="27.0" layoutY="64.0" prefHeight="244.0" prefWidth="163.0" AnchorPane.bottomAnchor="92.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="406.0" AnchorPane.topAnchor="64.0">
+         <children>
+            <AnchorPane prefHeight="23.0" prefWidth="167.0" />
+            <AnchorPane prefHeight="21.0" prefWidth="153.0">
+               <children>
+                  <Button fx:id="btnAtenderOcorrencia" mnemonicParsing="false" onAction="#atenderOcorrencia" prefHeight="25.0" prefWidth="163.0" text="Atender ocorrencia" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="21.0" prefWidth="153.0">
+               <children>
+                  <Button fx:id="btnCadastrarEmpresa" mnemonicParsing="false" onAction="#cadastrarEmpresa" prefHeight="25.0" prefWidth="163.0" text="Cadastrar empresa" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="24.0" prefWidth="163.0">
+               <children>
+                  <Button fx:id="btnMostrarOcorrencias" mnemonicParsing="false" onAction="#mostrarOcorrencias" prefHeight="25.0" prefWidth="167.0" text="Mostrar ocorrencias" />
+               </children></AnchorPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
