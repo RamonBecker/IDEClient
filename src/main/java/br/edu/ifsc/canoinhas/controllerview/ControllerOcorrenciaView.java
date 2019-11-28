@@ -3,7 +3,7 @@ package br.edu.ifsc.canoinhas.controllerview;
 import java.io.IOException;
 
 import br.edu.ifsc.canoinhas.App;
-import br.edu.ifsc.canoinhas.db.connection.controller.ControllerDBOcorrencia;
+import br.edu.ifsc.canoinhas.db.connection.controller.DaoDBOcorrencia;
 import br.edu.ifsc.canoinhas.entities.Endereco;
 import br.edu.ifsc.canoinhas.entities.Ocorrencia;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
@@ -64,7 +64,7 @@ public class ControllerOcorrenciaView {
 
 	private String gravidade;
 
-	private ControllerDBOcorrencia controllerDBOcorrencia = ControllerDBOcorrencia.getInstance();
+	private DaoDBOcorrencia controllerDBOcorrencia = DaoDBOcorrencia.getInstance();
 
 	public void back() {
 

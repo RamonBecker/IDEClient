@@ -9,17 +9,17 @@ import br.edu.ifsc.canoinhas.entities.Usuario;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 
-public class ControllerDBUsuario {
+public class DaoDBUsuario {
 
-	private static ControllerDBUsuario controllerDBUsuario;
+	private static DaoDBUsuario controllerDBUsuario;
 	private List<Usuario> listUsuario;
 
-	public ControllerDBUsuario() {
+	public DaoDBUsuario() {
 	}
 
-	public static ControllerDBUsuario getInstance() {
+	public static DaoDBUsuario getInstance() {
 		if (controllerDBUsuario == null) {
-			controllerDBUsuario = new ControllerDBUsuario();
+			controllerDBUsuario = new DaoDBUsuario();
 		}
 		return controllerDBUsuario;
 	}

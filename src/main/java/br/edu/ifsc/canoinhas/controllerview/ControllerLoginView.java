@@ -3,7 +3,7 @@ package br.edu.ifsc.canoinhas.controllerview;
 import java.io.IOException;
 
 import br.edu.ifsc.canoinhas.App;
-import br.edu.ifsc.canoinhas.db.connection.controller.ControllerDBUsuario;
+import br.edu.ifsc.canoinhas.db.connection.controller.DaoDBUsuario;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.fxml.FXML;
@@ -32,7 +32,7 @@ public class ControllerLoginView {
 
 	public void login() {
 
-		ControllerDBUsuario controllerDBUsuario = ControllerDBUsuario.getInstance();
+		DaoDBUsuario controllerDBUsuario = DaoDBUsuario.getInstance();
 
 		try {
 			if (controllerDBUsuario.login(txtuserName.getText().trim(), txtSenha.getText().trim())) {

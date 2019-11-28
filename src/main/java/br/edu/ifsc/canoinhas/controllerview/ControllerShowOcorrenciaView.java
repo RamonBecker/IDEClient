@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import br.edu.ifsc.canoinhas.App;
-import br.edu.ifsc.canoinhas.db.connection.controller.ControllerDBOcorrencia;
+import br.edu.ifsc.canoinhas.db.connection.controller.DaoDBOcorrencia;
 import br.edu.ifsc.canoinhas.entities.Endereco;
 import br.edu.ifsc.canoinhas.entities.Ocorrencia;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
@@ -51,7 +51,7 @@ public class ControllerShowOcorrenciaView implements Initializable {
 	@FXML
 	private MenuItem menuItemBack;
 
-	private ControllerDBOcorrencia controllerDBOcorrencia;
+	private DaoDBOcorrencia controllerDBOcorrencia;
 
 	private Ocorrencia ocorrencia;
 
@@ -65,7 +65,7 @@ public class ControllerShowOcorrenciaView implements Initializable {
 		
 		tableViewOcorrencia.getItems().clear();
 
-		controllerDBOcorrencia = ControllerDBOcorrencia.getInstance();
+		controllerDBOcorrencia = DaoDBOcorrencia.getInstance();
 		
 		ObservableList<Ocorrencia> listOcorrencia = FXCollections.observableArrayList();
 
@@ -96,7 +96,7 @@ public class ControllerShowOcorrenciaView implements Initializable {
 
 	public void ocorrenciaComplete() {
 		
-		controllerDBOcorrencia = ControllerDBOcorrencia.getInstance();
+		controllerDBOcorrencia = DaoDBOcorrencia.getInstance();
 		
 		ocorrencia.setStatus(txtStatusOcorrencia.getText().trim());
 		

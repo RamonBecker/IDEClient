@@ -98,7 +98,8 @@ public class DaoDBProjeto {
 
 		ObjectInputStream in = new ObjectInputStream(server.getInputStream());
 		String msg = in.readUTF();
-		String[] create = null;
+		String[] createProjeto = null;
+		String[] createPacote = null;
 		System.out.println(msg);
 		if (!msg.contains("404") && msg.length() > 0) {
 
@@ -110,12 +111,28 @@ public class DaoDBProjeto {
 				System.out.println("\n");
 
 				if (splitResult[i].contains(";")) {
-					create = splitResult[i].split(";");
-					listProjeto.add(new Projeto(Integer.parseInt(create[0]), create[1], create[2]));
+					createProjeto = splitResult[i].split(";");
+
+					Projeto projeto = new Projeto(Integer.parseInt(createProjeto[0]), createProjeto[1],
+							createProjeto[2]);
+
+					for (int j = 0; j < createProjeto.length; j++) {
+						if (createProjeto[j].contains(",")) {
+							createPacote = createProjeto[j].split(",");
+							for (int k = 0; k < createPacote.length - 1; k++) {
+								System.out.println(createPacote[k] + " indice:" + k);
+								Pacote pacote = new Pacote(Integer.parseInt(createPacote[k]), createPacote[k + 1]);
+								projeto.getListPacote().add(pacote);
+								k++;
+							}
+						}
+
+					}
+
+					listProjeto.add(projeto);
 				}
 
 			}
-
 		} else {
 			MessageAlert.mensagemErro("Erro ao receber dados dos projetos");
 		}

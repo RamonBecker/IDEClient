@@ -1,21 +1,20 @@
 package br.edu.ifsc.canoinhas.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 
-
 public class Projeto {
-	
+
 	private int id;
 	private String nome;
 	private String location;
 
 	private List<Pacote> listPacote;
-	
-	
+
 	public Projeto(int id, String nome, String location) {
-		
+
 		if (nome.isEmpty() || nome == null) {
 			throw new IllegalArgumentException(StringUtility.nomeProjetoVazio);
 		}
@@ -23,10 +22,11 @@ public class Projeto {
 		if (location.isEmpty() || location == null) {
 			throw new IllegalArgumentException(StringUtility.localDefaultVazio);
 		}
-		
+
 		this.id = id;
 		this.nome = nome;
 		this.location = location;
+		this.listPacote = new ArrayList<Pacote>();
 	}
 
 	public Projeto(String nome, String location) {
@@ -66,8 +66,6 @@ public class Projeto {
 		this.location = location;
 	}
 
-	
-	
 	public int getId() {
 		return id;
 	}

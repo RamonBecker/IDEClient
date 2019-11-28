@@ -7,16 +7,16 @@ import javax.persistence.EntityManager;
 import br.edu.ifsc.canoinhas.db.connection.Conn;
 import br.edu.ifsc.canoinhas.entities.Ocorrencia;
 
-public class ControllerDBOcorrencia {
-	private static ControllerDBOcorrencia controllerDBOcorrencia;
+public class DaoDBOcorrencia {
+	private static DaoDBOcorrencia controllerDBOcorrencia;
 	private List<Ocorrencia> listOcorrencias;
 
-	private ControllerDBOcorrencia() {
+	private DaoDBOcorrencia() {
 	}
 
-	public static ControllerDBOcorrencia getInstance() {
+	public static DaoDBOcorrencia getInstance() {
 		if (controllerDBOcorrencia == null) {
-			controllerDBOcorrencia = new ControllerDBOcorrencia();
+			controllerDBOcorrencia = new DaoDBOcorrencia();
 		}
 		return controllerDBOcorrencia;
 	}

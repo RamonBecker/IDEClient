@@ -6,7 +6,6 @@ import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 import br.edu.ifsc.canoinhas.App;
 import br.edu.ifsc.canoinhas.db.connection.controller.projeto.DaoDBProjeto;
-import br.edu.ifsc.canoinhas.db.connection.controller.projeto.DaoDBPacote;
 import br.edu.ifsc.canoinhas.db.connection.controller.projeto.UpdateProjetoDaemon;
 import br.edu.ifsc.canoinhas.entities.Projeto;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
@@ -90,8 +89,7 @@ public class ControllerPackageView implements Initializable {
 
 		controllerDBProjeto.submitPacoteAddServer(String.valueOf(projeto.getId()), txtNamePackage.getText(), "add");
 		cleanFields();
-		
-		new DaoDBPacote().getAllProjetoPacote();
+
 	}
 
 	private void cleanFields() {

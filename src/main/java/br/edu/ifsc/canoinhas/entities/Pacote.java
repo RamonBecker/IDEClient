@@ -1,5 +1,6 @@
 package br.edu.ifsc.canoinhas.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -24,6 +25,15 @@ public class Pacote {
 			throw new IllegalArgumentException(StringUtility.nomePacoteVazio);
 		}
 		this.nome = nome;
+	}
+
+	public Pacote(int id, String nome) {
+		if (nome.isEmpty() || nome == null) {
+			throw new IllegalArgumentException(StringUtility.nomePacoteVazio);
+		}
+		this.id = id;
+		this.nome = nome;
+		this.listClasse = new ArrayList<Classe>();
 	}
 
 	public String getNome() {
