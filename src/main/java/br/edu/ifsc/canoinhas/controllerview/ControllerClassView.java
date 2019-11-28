@@ -1,9 +1,11 @@
 package br.edu.ifsc.canoinhas.controllerview;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import br.edu.ifsc.canoinhas.db.connection.controller.projeto.ControllerDBProjeto;
+import br.edu.ifsc.canoinhas.db.connection.controller.projeto.DaoDBProjeto;
+import br.edu.ifsc.canoinhas.db.connection.controller.projeto.DaoDBPacote;
 import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
@@ -59,7 +61,7 @@ public class ControllerClassView implements Initializable {
 	@FXML
 	private TableColumn<Pacote, String> tableColumnPacote;
 
-	private ControllerDBProjeto controllerDBProjeto = ControllerDBProjeto.getInstance();
+	private DaoDBProjeto controllerDBProjeto = DaoDBProjeto.getInstance();
 
 	@FXML
 	private Button btnBackProject;
@@ -127,13 +129,21 @@ public class ControllerClassView implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		DaoDBPacote daoPacote = new DaoDBPacote();
+		
+		
+		try {
+			daoPacote.getAllProjetoPacote();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		//ObservableList<Projeto> listProjeto = FXCollections.observableArrayList();
+	//	listProjeto.addAll(controllerDBProjeto.getListProjeto());
 
-		ObservableList<Projeto> listProjeto = FXCollections.observableArrayList();
-		listProjeto.addAll(controllerDBProjeto.getListProjeto());
+	//	tableColumnProject.setCellValueFactory(new PropertyValueFactory<Projeto, String>("nome"));
 
-		tableColumnProject.setCellValueFactory(new PropertyValueFactory<Projeto, String>("nome"));
-
-		tableProject.setItems(listProjeto);
+	//	tableProject.setItems(listProjeto);
 
 	}
 

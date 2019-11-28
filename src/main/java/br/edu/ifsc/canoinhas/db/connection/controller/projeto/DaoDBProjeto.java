@@ -15,20 +15,20 @@ import br.edu.ifsc.canoinhas.entities.Projeto;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 
-public class ControllerDBProjeto {
+public class DaoDBProjeto {
 
 	private String ipServer = "localhost";
 	private int portServer = 1024;
 	private List<Projeto> listProjeto;
-	private static ControllerDBProjeto controllerDBProjeto;
+	private static DaoDBProjeto controllerDBProjeto;
 
-	private ControllerDBProjeto() {
+	private DaoDBProjeto() {
 		listProjeto = new ArrayList<Projeto>();
 	}
 
-	public static ControllerDBProjeto getInstance() {
+	public static DaoDBProjeto getInstance() {
 		if (controllerDBProjeto == null) {
-			controllerDBProjeto = new ControllerDBProjeto();
+			controllerDBProjeto = new DaoDBProjeto();
 
 		}
 		return controllerDBProjeto;
@@ -61,12 +61,33 @@ public class ControllerDBProjeto {
 
 	}
 
-	public void submitPacoteAddServer(String idProjeto, String nomeProjeto, String nomePacote, String operation) {
-		
+	public void submitPacoteAddServer(String idProjeto, String nomePacote, String operation) {
+
+		try {
+
+			Socket server = new Socket(ipServer, portServer);
+			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
+			out.writeUTF("pacote;" + operation + ";" + idProjeto + ";" + nomePacote);
+			out.flush();
+
+//			ObjectInputStream in = new ObjectInputStream(server.getInputStream());
+//			String resposta = in.readUTF();
+//
+//			if (resposta.contentEquals("ok")) {
+//				MessageAlert.mensagemRealizadoSucesso(StringUtility.projectCreate);
+//			} else {
+//				MessageAlert.mensagemErro(resposta);
+//			}
+
+			// in.close();
+			out.close();
+			server.close();
+
+		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
+		}
 	}
-	
-	
-	
+
 	public void getAllProjeto() throws UnknownHostException, IOException {
 
 		Socket server = new Socket(ipServer, portServer);

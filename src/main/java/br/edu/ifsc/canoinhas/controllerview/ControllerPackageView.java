@@ -2,9 +2,11 @@ package br.edu.ifsc.canoinhas.controllerview;
 
 import java.io.IOException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 import br.edu.ifsc.canoinhas.App;
-import br.edu.ifsc.canoinhas.db.connection.controller.projeto.ControllerDBProjeto;
+import br.edu.ifsc.canoinhas.db.connection.controller.projeto.DaoDBProjeto;
+import br.edu.ifsc.canoinhas.db.connection.controller.projeto.DaoDBPacote;
 import br.edu.ifsc.canoinhas.db.connection.controller.projeto.UpdateProjetoDaemon;
 import br.edu.ifsc.canoinhas.entities.Projeto;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
@@ -46,6 +48,8 @@ public class ControllerPackageView implements Initializable {
 
 	private Projeto projeto;
 
+	private DaoDBProjeto controllerDBProjeto;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -54,7 +58,7 @@ public class ControllerPackageView implements Initializable {
 			updateProjeto.start();
 			updateProjeto.join();
 
-			ControllerDBProjeto controllerDBProjeto = ControllerDBProjeto.getInstance();
+			controllerDBProjeto = DaoDBProjeto.getInstance();
 			//
 			ObservableList<Projeto> listProjeto = FXCollections.observableArrayList();
 			//
@@ -73,21 +77,21 @@ public class ControllerPackageView implements Initializable {
 
 	public void tableAction() {
 
-//		projeto = tableViewProject.getSelectionModel().getSelectedItem();
-//
-//		txtNameProject.setText(projeto.getNome());
-//
-//		txtFolderProject.setText(projeto.getLocation());
+		projeto = tableViewProject.getSelectionModel().getSelectedItem();
+
+		txtNameProject.setText(projeto.getNome());
+
+		txtFolderProject.setText(projeto.getLocation());
 	}
 
-	public void createPackage() {
+	public void createPackage() throws UnknownHostException, IOException {
 
-//		ControllerDBProjeto controllerDBProjeto = ControllerDBProjeto.getInstance();
-//
-//		controllerDBProjeto.addPackageToProject(projeto, txtNamePackage.getText().trim());
-//
-//		cleanFields();
+		controllerDBProjeto = DaoDBProjeto.getInstance();
 
+		controllerDBProjeto.submitPacoteAddServer(String.valueOf(projeto.getId()), txtNamePackage.getText(), "add");
+		cleanFields();
+		
+		new DaoDBPacote().getAllProjetoPacote();
 	}
 
 	private void cleanFields() {

@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import br.edu.ifsc.canoinhas.App;
-import br.edu.ifsc.canoinhas.db.connection.controller.ControllerDBEmpresa;
+import br.edu.ifsc.canoinhas.db.connection.controller.DaoDBEmpresa;
 import br.edu.ifsc.canoinhas.entities.Empresa;
 import br.edu.ifsc.canoinhas.entities.Endereco;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
@@ -81,7 +81,7 @@ public class ControllerEmpresaView implements Initializable {
 	@FXML
 	private TextField txtTelefone;
 
-	private ControllerDBEmpresa controllerDBEmpresa;
+	private DaoDBEmpresa controllerDBEmpresa;
 
 	private Empresa empresa;
 
@@ -126,7 +126,7 @@ public class ControllerEmpresaView implements Initializable {
 
 			Empresa empresa = new Empresa(txtNameEmpresa.getText().trim(), txtCNPJ.getText().trim(), endereco);
 
-			controllerDBEmpresa = ControllerDBEmpresa.getInstance();
+			controllerDBEmpresa = DaoDBEmpresa.getInstance();
 
 			controllerDBEmpresa.addEmpresa(empresa);
 
@@ -151,7 +151,7 @@ public class ControllerEmpresaView implements Initializable {
 			columnEndereco.setCellValueFactory(new PropertyValueFactory<Empresa, Endereco>("endereco"));
 			columnNome.setCellValueFactory(new PropertyValueFactory<Empresa, String>("nome"));
 
-			controllerDBEmpresa = ControllerDBEmpresa.getInstance();
+			controllerDBEmpresa = DaoDBEmpresa.getInstance();
 
 			listEmpresa.addAll(controllerDBEmpresa.getListEmpresa());
 
@@ -225,7 +225,7 @@ public class ControllerEmpresaView implements Initializable {
 			empresa.getEndereco().setRua(txtRua.getText());
 			empresa.getEndereco().setTelefone(txtTelefone.getText());
 
-			controllerDBEmpresa = ControllerDBEmpresa.getInstance();
+			controllerDBEmpresa = DaoDBEmpresa.getInstance();
 
 			controllerDBEmpresa.updateEmpresa(empresa);
 

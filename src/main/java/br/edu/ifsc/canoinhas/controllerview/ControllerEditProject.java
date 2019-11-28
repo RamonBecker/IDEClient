@@ -3,7 +3,7 @@ package br.edu.ifsc.canoinhas.controllerview;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import br.edu.ifsc.canoinhas.db.connection.controller.projeto.ControllerDBProjeto;
+import br.edu.ifsc.canoinhas.db.connection.controller.projeto.DaoDBProjeto;
 import br.edu.ifsc.canoinhas.entities.Classe;
 import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;
@@ -88,7 +88,7 @@ public class ControllerEditProject implements Initializable {
 
 	private Classe classe;
 
-	private ControllerDBProjeto controllerDBProjeto;
+	private DaoDBProjeto controllerDBProjeto;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -98,7 +98,7 @@ public class ControllerEditProject implements Initializable {
 
 	public void saveEdit() {
 
-		controllerDBProjeto = ControllerDBProjeto.getInstance();
+		controllerDBProjeto = DaoDBProjeto.getInstance();
 
 		if (groupOption.getSelectedToggle() == null) {
 			MessageAlert.mensagemErro(StringUtility.selectedNull);
@@ -164,7 +164,7 @@ public class ControllerEditProject implements Initializable {
 	}
 
 	public void remove() {
-		controllerDBProjeto = ControllerDBProjeto.getInstance();
+		controllerDBProjeto = DaoDBProjeto.getInstance();
 
 		if (groupOption.getSelectedToggle() == null) {
 			MessageAlert.mensagemErro(StringUtility.selectedNull);
@@ -222,7 +222,7 @@ public class ControllerEditProject implements Initializable {
 
 		tableColumnProjeto.setCellValueFactory(new PropertyValueFactory<Projeto, String>("nome"));
 
-		controllerDBProjeto = ControllerDBProjeto.getInstance();
+		controllerDBProjeto = DaoDBProjeto.getInstance();
 
 		listProjeto.addAll(controllerDBProjeto.getListProjeto());
 

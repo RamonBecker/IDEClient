@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 import javax.transaction.Transactional.TxType;
 
 import br.edu.ifsc.canoinhas.App;
-import br.edu.ifsc.canoinhas.db.connection.controller.projeto.ControllerDBProjeto;
+import br.edu.ifsc.canoinhas.db.connection.controller.projeto.DaoDBProjeto;
 import br.edu.ifsc.canoinhas.entities.Classe;
 import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;
@@ -106,7 +106,7 @@ public class ControllerIDEView implements Initializable {
 
 	private Classe classe;
 
-	private ControllerDBProjeto controllerDBProjeto;
+	private DaoDBProjeto controllerDBProjeto;
 
 	public void createNewProject(ActionEvent e) {
 		try {
@@ -161,7 +161,7 @@ public class ControllerIDEView implements Initializable {
 
 	public void updateProject() {
 
-		controllerDBProjeto = ControllerDBProjeto.getInstance();
+		controllerDBProjeto = DaoDBProjeto.getInstance();
 
 		columnProjeto.setCellValueFactory(new PropertyValueFactory<Projeto, String>("nome"));
 
@@ -260,7 +260,7 @@ public class ControllerIDEView implements Initializable {
 			}
 		}
 
-		controllerDBProjeto = ControllerDBProjeto.getInstance();
+		controllerDBProjeto = DaoDBProjeto.getInstance();
 		classe.setCodigo(textAreaProgram.getText());
 		controllerDBProjeto.editClass(classe);
 	}

@@ -10,11 +10,11 @@ public class UpdateProjetoDaemon implements Runnable {
 	public void run() {
 
 		try {
-			ControllerDBProjeto controllerDBProjeto = ControllerDBProjeto.getInstance();
+			DaoDBProjeto controllerDBProjeto = DaoDBProjeto.getInstance();
+			controllerDBProjeto.getListProjeto().clear();
 			controllerDBProjeto.getAllProjeto();
 			
 		} catch (IOException e) {
-			MessageAlert.mensagemErro("Erro ao receber dados dos projetos");
 			e.printStackTrace();
 		}
 

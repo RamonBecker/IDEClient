@@ -6,13 +6,13 @@ import javax.persistence.EntityManager;
 import br.edu.ifsc.canoinhas.db.connection.Conn;
 import br.edu.ifsc.canoinhas.entities.Empresa;
 
-public class ControllerDBEmpresa {
-	private static ControllerDBEmpresa controllerDBEmpresa;
+public class DaoDBEmpresa {
+	private static DaoDBEmpresa controllerDBEmpresa;
 	private List<Empresa> listEmpresa;
 
-	public static ControllerDBEmpresa getInstance() {
+	public static DaoDBEmpresa getInstance() {
 		if (controllerDBEmpresa == null) {
-			controllerDBEmpresa = new ControllerDBEmpresa();
+			controllerDBEmpresa = new DaoDBEmpresa();
 		}
 		return controllerDBEmpresa;
 	}
