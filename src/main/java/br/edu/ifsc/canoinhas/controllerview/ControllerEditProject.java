@@ -3,10 +3,10 @@ package br.edu.ifsc.canoinhas.controllerview;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import br.edu.ifsc.canoinhas.db.connection.controller.projeto.DaoDBProjeto;
 import br.edu.ifsc.canoinhas.entities.Classe;
 import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;
+import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.collections.FXCollections;

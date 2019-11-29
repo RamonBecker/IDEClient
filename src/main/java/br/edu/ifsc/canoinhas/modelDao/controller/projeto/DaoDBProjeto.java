@@ -1,4 +1,4 @@
-package br.edu.ifsc.canoinhas.db.connection.controller.projeto;
+package br.edu.ifsc.canoinhas.modelDao.controller.projeto;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -8,10 +8,11 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-import br.edu.ifsc.canoinhas.db.connection.Conn;
+
 import br.edu.ifsc.canoinhas.entities.Classe;
 import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;
+import br.edu.ifsc.canoinhas.modelDao.Conn;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 
@@ -70,16 +71,14 @@ public class DaoDBProjeto {
 			out.writeUTF("pacote;" + operation + ";" + idProjeto + ";" + nomePacote);
 			out.flush();
 
-//			ObjectInputStream in = new ObjectInputStream(server.getInputStream());
-//			String resposta = in.readUTF();
+			ObjectInputStream in = new ObjectInputStream(server.getInputStream());
+			String resposta = in.readUTF();
 //
-//			if (resposta.contentEquals("ok")) {
-//				MessageAlert.mensagemRealizadoSucesso(StringUtility.projectCreate);
-//			} else {
-//				MessageAlert.mensagemErro(resposta);
-//			}
+			if (resposta.contentEquals("Ok")) {
+				MessageAlert.mensagemRealizadoSucesso(StringUtility.projectCreate);
+			}
 
-			// in.close();
+			in.close();
 			out.close();
 			server.close();
 

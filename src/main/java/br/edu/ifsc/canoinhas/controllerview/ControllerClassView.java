@@ -2,9 +2,10 @@ package br.edu.ifsc.canoinhas.controllerview;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import br.edu.ifsc.canoinhas.db.connection.controller.projeto.DaoDBProjeto;
+
 import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;
+import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -125,13 +126,13 @@ public class ControllerClassView implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// ObservableList<Projeto> listProjeto = FXCollections.observableArrayList();
-		// listProjeto.addAll(controllerDBProjeto.getListProjeto());
+		
+		ObservableList<Projeto> listProjeto = FXCollections.observableArrayList();
+		listProjeto.addAll(controllerDBProjeto.getListProjeto());
 
-		// tableColumnProject.setCellValueFactory(new PropertyValueFactory<Projeto,
-		// String>("nome"));
+		tableColumnProject.setCellValueFactory(new PropertyValueFactory<Projeto, String>("nome"));
 
-		// tableProject.setItems(listProjeto);
+		tableProject.setItems(listProjeto);
 
 	}
 

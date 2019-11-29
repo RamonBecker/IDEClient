@@ -1,10 +1,11 @@
-package br.edu.ifsc.canoinhas.db.connection.controller;
+package br.edu.ifsc.canoinhas.modelDao.controller;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import br.edu.ifsc.canoinhas.db.connection.Conn;
+
 import br.edu.ifsc.canoinhas.entities.Empresa;
+import br.edu.ifsc.canoinhas.modelDao.Conn;
 
 public class DaoDBEmpresa {
 	private static DaoDBEmpresa controllerDBEmpresa;

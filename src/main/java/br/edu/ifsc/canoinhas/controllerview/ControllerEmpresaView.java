@@ -5,9 +5,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import br.edu.ifsc.canoinhas.App;
-import br.edu.ifsc.canoinhas.db.connection.controller.DaoDBEmpresa;
 import br.edu.ifsc.canoinhas.entities.Empresa;
 import br.edu.ifsc.canoinhas.entities.Endereco;
+import br.edu.ifsc.canoinhas.modelDao.controller.DaoDBEmpresa;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.collections.FXCollections;

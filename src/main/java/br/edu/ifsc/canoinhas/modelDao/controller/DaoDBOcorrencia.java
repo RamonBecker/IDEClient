@@ -1,11 +1,11 @@
-package br.edu.ifsc.canoinhas.db.connection.controller;
+package br.edu.ifsc.canoinhas.modelDao.controller;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import br.edu.ifsc.canoinhas.db.connection.Conn;
 import br.edu.ifsc.canoinhas.entities.Ocorrencia;
+import br.edu.ifsc.canoinhas.modelDao.Conn;
 
 public class DaoDBOcorrencia {
 	private static DaoDBOcorrencia controllerDBOcorrencia;

@@ -1,4 +1,4 @@
-package br.edu.ifsc.canoinhas.db.connection.controller.projeto;
+package br.edu.ifsc.canoinhas.modelDao.controller.projeto;
 
 import java.io.IOException;
 
