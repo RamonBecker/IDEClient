@@ -6,6 +6,7 @@ import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 import br.edu.ifsc.canoinhas.App;
 import br.edu.ifsc.canoinhas.entities.Projeto;
+import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBPacote;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.UpdateProjetoDaemon;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
@@ -83,11 +84,18 @@ public class ControllerPackageView implements Initializable {
 		txtFolderProject.setText(projeto.getLocation());
 	}
 
-	public void createPackage() throws UnknownHostException, IOException {
+	public void createPackage() {
+		
+		try {
+			
+			new DaoDBPacote().submitPacoteServer(String.valueOf(projeto.getId()), txtNamePackage.getText(), "add");
+			Thread updateProjeto = new Thread(new UpdateProjetoDaemon());
+			updateProjeto.start();
+			updateProjeto.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
-		controllerDBProjeto = DaoDBProjeto.getInstance();
-
-		controllerDBProjeto.submitPacoteAddServer(String.valueOf(projeto.getId()), txtNamePackage.getText(), "add");
 		cleanFields();
 
 	}

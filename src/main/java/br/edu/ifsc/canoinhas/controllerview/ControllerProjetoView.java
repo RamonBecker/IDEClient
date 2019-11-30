@@ -61,7 +61,7 @@ public class ControllerProjetoView implements Initializable {
 
 		controllerDBProjeto = DaoDBProjeto.getInstance();
 
-		controllerDBProjeto.submitProjetoAddServer(txtNameProject.getText(), txtLocalProject.getText(), "add");
+		controllerDBProjeto.submitProjetoServer(txtNameProject.getText(), txtLocalProject.getText(), "add");
 
 		try {
 			controllerDBProjeto.getAllProjeto();

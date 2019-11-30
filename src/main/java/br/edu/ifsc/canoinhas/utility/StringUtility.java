@@ -1,7 +1,11 @@
 package br.edu.ifsc.canoinhas.utility;
 
 public class StringUtility {
-	public static String erro = "Erro";
+
+
+	public static String completeOperation = "Operação realizada com sucesso !";
+	
+	public static String erro = "Erro para realizar esta operação";
 
 	public static String running = "Running";
 
@@ -269,8 +273,6 @@ public class StringUtility {
 	public static String main = "public class Main{" + "\n" + "public static void main(String [] args){" + "\n"
 			+ "\t\tlauch();\n" + "\t}" + "}";
 
-	
-	
 	public static String statusVazio = "O status da ocorrencia não pode ser vazio !";
 	public static String ruaVazio = "A rua não pode ser vazio !";
 	public static String bairroVazio = "O bairro não pode ser vazio !";
@@ -312,7 +314,7 @@ public class StringUtility {
 	public static String removeClass = "Classe removida com sucesso !";
 	public static String removeEmpresa = "Empresa removida com sucesso !";
 	public static String selectedNullGravidadeOcorrencia = "Selecione a gravidade da ocorrencia !";
-	public static String ocorrenciaAndamento =  "Ocorrencia em andamento";
+	public static String ocorrenciaAndamento = "Ocorrencia em andamento";
 	public static String ocorrenciaConcluido = "Ocorrencia concluida";
 	public static String viaturaDeslocada = "Viatura em deslocamento para a ocorrência !";
 }

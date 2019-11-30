@@ -35,7 +35,7 @@ public class DaoDBProjeto {
 		return controllerDBProjeto;
 	}
 
-	public void submitProjetoAddServer(String nome, String location, String operation) {
+	public void submitProjetoServer(String nome, String location, String operation) {
 		try {
 
 			Socket server = new Socket(ipServer, portServer);
@@ -47,9 +47,9 @@ public class DaoDBProjeto {
 			String resposta = in.readUTF();
 
 			if (resposta.contentEquals("ok")) {
-				MessageAlert.mensagemRealizadoSucesso(StringUtility.projectCreate);
+				MessageAlert.mensagemRealizadoSucesso(StringUtility.completeOperation);
 			} else {
-				MessageAlert.mensagemErro(resposta);
+				MessageAlert.mensagemErro(StringUtility.erro);
 			}
 
 			in.close();
@@ -60,31 +60,6 @@ public class DaoDBProjeto {
 			System.out.println("Erro: " + e.getMessage());
 		}
 
-	}
-
-	public void submitPacoteAddServer(String idProjeto, String nomePacote, String operation) {
-
-		try {
-
-			Socket server = new Socket(ipServer, portServer);
-			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
-			out.writeUTF("pacote;" + operation + ";" + idProjeto + ";" + nomePacote);
-			out.flush();
-
-			ObjectInputStream in = new ObjectInputStream(server.getInputStream());
-			String resposta = in.readUTF();
-//
-			if (resposta.contentEquals("Ok")) {
-				MessageAlert.mensagemRealizadoSucesso(StringUtility.projectCreate);
-			}
-
-			in.close();
-			out.close();
-			server.close();
-
-		} catch (Exception e) {
-			System.out.println("Erro: " + e.getMessage());
-		}
 	}
 
 	public void getAllProjeto() throws UnknownHostException, IOException {
@@ -132,8 +107,6 @@ public class DaoDBProjeto {
 				}
 
 			}
-		} else {
-			MessageAlert.mensagemErro("Erro ao receber dados dos projetos");
 		}
 
 		System.out.println(listProjeto);

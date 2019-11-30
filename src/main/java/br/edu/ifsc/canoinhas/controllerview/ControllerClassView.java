@@ -5,7 +5,9 @@ import java.util.ResourceBundle;
 
 import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;
+import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBClasse;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
+import br.edu.ifsc.canoinhas.modelDao.controller.projeto.UpdateProjetoDaemon;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -86,14 +88,17 @@ public class ControllerClassView implements Initializable {
 			Boolean main = checkBoxMain.selectedProperty().getValue();
 
 			pacote.addClass(txtNameClass.getText(), main, typeClass);
-			// controllerDBProjeto.updateProject(projeto, pacote);
 
-			controllerDBProjeto.updateClasse(projeto, pacote, txtNameClass.getText(), main, typeClass);
+			new DaoDBClasse().submitClasseServer(String.valueOf(pacote.getId()), txtNameClass.getText(), main,
+					typeClass, "add");
+
 			clearFields();
-			Stage stage = (Stage) btnFinish.getScene().getWindow();
-			stage.close();
 
-		} catch (IllegalArgumentException e) {
+			Thread update = new Thread(new UpdateProjetoDaemon());
+			update.start();
+			update.join();
+
+		} catch (IllegalArgumentException | InterruptedException e) {
 			MessageAlert.mensagemErro(e.getMessage());
 		}
 
@@ -126,7 +131,7 @@ public class ControllerClassView implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 		ObservableList<Projeto> listProjeto = FXCollections.observableArrayList();
 		listProjeto.addAll(controllerDBProjeto.getListProjeto());
 
