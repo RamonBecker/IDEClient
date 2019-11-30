@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import br.edu.ifsc.canoinhas.entities.Classe;
 import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;
+import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBPacote;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.UpdateProjetoDaemon;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
@@ -118,10 +119,9 @@ public class ControllerEditProject implements Initializable {
 					daoDBProjeto.submitIdProjectServer(String.valueOf(projeto.getId()), txtName.getText().trim(),
 							"edit");
 
-					Thread update = new Thread(new UpdateProjetoDaemon());
-					update.start();
-					update.join();
-				} catch (IOException | InterruptedException e) {
+					updateThread();
+					
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 
@@ -134,11 +134,20 @@ public class ControllerEditProject implements Initializable {
 		if (radioButtonPackage.isSelected()) {
 			if (pacote != null) {
 
-				pacote.setNome(txtName.getText().trim());
-				daoDBProjeto.editPacote(pacote);
+	//			pacote.setNome(txtName.getText().trim());
+				
+				DaoDBPacote daoDBPacote = new DaoDBPacote();
+				
+				try {
+					daoDBPacote.submitIdPacoteServer(String.valueOf(pacote.getId()), txtName.getText().trim(), "edit");
+					
+					updateThread();
+				
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				tableViewPacote.setVisible(false);
 				tableViewProjeto.setVisible(true);
-				MessageAlert.mensagemRealizadoSucesso(StringUtility.namePackageSucessEdit);
 
 			} else {
 				MessageAlert.mensagemErro(StringUtility.selectedPacote);
@@ -170,6 +179,17 @@ public class ControllerEditProject implements Initializable {
 
 		clean();
 		preecherTabelaProjeto();
+	}
+	
+	private void updateThread() {
+		
+		try {
+			Thread updateThread = new Thread(new UpdateProjetoDaemon());
+			updateThread.start();
+			updateThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void remove() {
