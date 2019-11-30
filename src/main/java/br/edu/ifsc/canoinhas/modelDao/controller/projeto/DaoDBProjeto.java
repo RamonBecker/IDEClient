@@ -8,7 +8,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-
 import br.edu.ifsc.canoinhas.entities.Classe;
 import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;
@@ -73,14 +72,21 @@ public class DaoDBProjeto {
 		ObjectInputStream in = new ObjectInputStream(server.getInputStream());
 		String msg = in.readUTF();
 		String[] createProjeto = null;
-		String[] createPacote = null;
+		// String[] createPacote = null;
+		// String[] createClass = null;
+		String[] resultPacote = null;
+		String teste = "";
+
 		System.out.println(msg);
+
+		Pacote auxPacote = null;
+
 		if (!msg.contains("404") && msg.length() > 0) {
 
 			String[] splitResult = msg.split("-");
 
 			for (int i = 0; i < splitResult.length; i++) {
-				System.out.print(splitResult[i] + " " + " indice: " + i);
+				System.out.print("Projeto:" + splitResult[i] + " " + " indice: " + i);
 
 				System.out.println("\n");
 
@@ -91,13 +97,33 @@ public class DaoDBProjeto {
 							createProjeto[2]);
 
 					for (int j = 0; j < createProjeto.length; j++) {
+						System.out.println("Create projeto: " + createProjeto[j]);
+
 						if (createProjeto[j].contains(",")) {
-							createPacote = createProjeto[j].split(",");
-							for (int k = 0; k < createPacote.length - 1; k++) {
-								System.out.println(createPacote[k] + " indice:" + k);
-								Pacote pacote = new Pacote(Integer.parseInt(createPacote[k]), createPacote[k + 1]);
-								projeto.getListPacote().add(pacote);
-								k++;
+							String[] createPacote = createProjeto[j].split(",");
+
+							for (int k = 0; k < createPacote.length; k++) {
+
+								Pacote pacote = null;
+								System.out.println("Create Pacote: " + createPacote[k]);
+								if (createPacote[k].contains("/")) {
+
+									String[] createClass = createPacote[k].split("/");
+
+									for (int l = 0; l < createClass.length; l++) {
+										System.out.println("Create Class" + createClass[l]);
+										Classe classe = new Classe(Integer.parseInt(createClass[l]),
+												createClass[l + 1]);
+										auxPacote.getListClasse().add(classe);
+										l++;
+									}
+
+								} else {
+									pacote = new Pacote(Integer.parseInt(createPacote[k]), createPacote[k + 1]);
+									auxPacote = pacote;
+									projeto.getListPacote().add(auxPacote);
+									k++;
+								}
 							}
 						}
 

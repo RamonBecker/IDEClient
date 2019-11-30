@@ -3,13 +3,21 @@ package br.edu.ifsc.canoinhas.entities;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 
 public class Classe {
-	
+
 	private int id;
 	private String nome;
 	private String codigo;
 	private String typeClasse;
 
 	public Classe() {
+	}
+
+	public Classe(int id, String nome) {
+		if (nome.isEmpty() || nome == null) {
+			throw new IllegalArgumentException(StringUtility.nomeClasseVazio);
+		}
+		this.id = id;
+		this.nome = nome;
 	}
 
 	public Classe(String nome, String codigo) {
@@ -95,7 +103,7 @@ public class Classe {
 
 	public void setCodigoClasse(Boolean main, String typeClass) {
 		if (typeClass.equals("public") && main) {
-			
+
 			setCodigo("public class  " + getNome() + "  {" + "\n" + StringUtility.mainClass);
 		}
 		if (typeClass.equals("private") && main) {
