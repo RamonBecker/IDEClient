@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import br.edu.ifsc.canoinhas.entities.Classe;
 import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;
+import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBClasse;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBPacote;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.UpdateProjetoDaemon;
@@ -120,7 +121,7 @@ public class ControllerEditProject implements Initializable {
 							"edit");
 
 					updateThread();
-					
+
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -134,15 +135,13 @@ public class ControllerEditProject implements Initializable {
 		if (radioButtonPackage.isSelected()) {
 			if (pacote != null) {
 
-	//			pacote.setNome(txtName.getText().trim());
-				
 				DaoDBPacote daoDBPacote = new DaoDBPacote();
-				
+
 				try {
 					daoDBPacote.submitIdPacoteServer(String.valueOf(pacote.getId()), txtName.getText().trim(), "edit");
-					
+
 					updateThread();
-				
+
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -159,18 +158,18 @@ public class ControllerEditProject implements Initializable {
 		if (radioButtonClass.isSelected()) {
 			if (classe != null) {
 
-				classe.setNome(txtName.getText());
+				DaoDBClasse daoDBClasse = new DaoDBClasse();
 
-				classe.setCodigoClasse(true, classe.getTypeClasse());
-				// pacote.setCodigoClasse(true, "public", classe);
-
-				daoDBProjeto.editClass(classe);
+				try {
+					daoDBClasse.submitIdClasseServer(String.valueOf(classe.getId()), txtName.getText().trim(), "edit");
+					updateThread();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
 				tableViewClass.setVisible(false);
 				tableViewPacote.setVisible(false);
 				tableViewProjeto.setVisible(true);
-
-				MessageAlert.mensagemRealizadoSucesso(StringUtility.nameClassSucessEdit);
 			} else {
 				MessageAlert.mensagemErro(StringUtility.selectedClasse);
 				return;
@@ -180,9 +179,9 @@ public class ControllerEditProject implements Initializable {
 		clean();
 		preecherTabelaProjeto();
 	}
-	
+
 	private void updateThread() {
-		
+
 		try {
 			Thread updateThread = new Thread(new UpdateProjetoDaemon());
 			updateThread.start();
