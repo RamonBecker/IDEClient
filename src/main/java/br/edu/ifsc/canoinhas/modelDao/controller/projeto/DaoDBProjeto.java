@@ -61,6 +61,29 @@ public class DaoDBProjeto {
 
 	}
 
+	public void submitIdProjectServer(String idProject, String newName, String operation)
+			throws UnknownHostException, IOException {
+
+		Socket server = new Socket(ipServer, portServer);
+
+		ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
+		out.writeUTF("projeto;" + operation + ";" + idProject + ";" + newName);
+		out.flush();
+
+		ObjectInputStream in = new ObjectInputStream(server.getInputStream());
+		String msg = in.readUTF();
+		 
+		if(msg.contains("Ok")) {
+			MessageAlert.mensagemRealizadoSucesso(StringUtility.completeOperation);
+		}else {
+			MessageAlert.mensagemErro(StringUtility.erro);
+		}
+		 
+		in.close();
+		out.close();
+		server.close();
+	}
+
 	public void getAllProjeto() throws UnknownHostException, IOException {
 
 		Socket server = new Socket(ipServer, portServer);

@@ -1,5 +1,6 @@
 package br.edu.ifsc.canoinhas.controllerview;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -7,6 +8,7 @@ import br.edu.ifsc.canoinhas.entities.Classe;
 import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
+import br.edu.ifsc.canoinhas.modelDao.controller.projeto.UpdateProjetoDaemon;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.collections.FXCollections;
@@ -88,7 +90,7 @@ public class ControllerEditProject implements Initializable {
 
 	private Classe classe;
 
-	private DaoDBProjeto controllerDBProjeto;
+	private DaoDBProjeto daoDBProjeto;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -98,7 +100,7 @@ public class ControllerEditProject implements Initializable {
 
 	public void saveEdit() {
 
-		controllerDBProjeto = DaoDBProjeto.getInstance();
+		daoDBProjeto = DaoDBProjeto.getInstance();
 
 		if (groupOption.getSelectedToggle() == null) {
 			MessageAlert.mensagemErro(StringUtility.selectedNull);
@@ -112,10 +114,17 @@ public class ControllerEditProject implements Initializable {
 
 		if (radioButtonProject.isSelected()) {
 			if (projeto != null) {
+				try {
+					daoDBProjeto.submitIdProjectServer(String.valueOf(projeto.getId()), txtName.getText().trim(),
+							"edit");
 
-				projeto.setNome(txtName.getText().trim());
-				controllerDBProjeto.editProject(projeto);
-				MessageAlert.mensagemRealizadoSucesso(StringUtility.nameProjectSucessEdit);
+					Thread update = new Thread(new UpdateProjetoDaemon());
+					update.start();
+					update.join();
+				} catch (IOException | InterruptedException e) {
+					e.printStackTrace();
+				}
+
 			} else {
 				MessageAlert.mensagemErro(StringUtility.selectedProjeto);
 				return;
@@ -126,7 +135,7 @@ public class ControllerEditProject implements Initializable {
 			if (pacote != null) {
 
 				pacote.setNome(txtName.getText().trim());
-				controllerDBProjeto.editPacote(pacote);
+				daoDBProjeto.editPacote(pacote);
 				tableViewPacote.setVisible(false);
 				tableViewProjeto.setVisible(true);
 				MessageAlert.mensagemRealizadoSucesso(StringUtility.namePackageSucessEdit);
@@ -142,11 +151,11 @@ public class ControllerEditProject implements Initializable {
 			if (classe != null) {
 
 				classe.setNome(txtName.getText());
-				
+
 				classe.setCodigoClasse(true, classe.getTypeClasse());
 				// pacote.setCodigoClasse(true, "public", classe);
-				
-				controllerDBProjeto.editClass(classe);
+
+				daoDBProjeto.editClass(classe);
 
 				tableViewClass.setVisible(false);
 				tableViewPacote.setVisible(false);
@@ -164,7 +173,7 @@ public class ControllerEditProject implements Initializable {
 	}
 
 	public void remove() {
-		controllerDBProjeto = DaoDBProjeto.getInstance();
+		daoDBProjeto = DaoDBProjeto.getInstance();
 
 		if (groupOption.getSelectedToggle() == null) {
 			MessageAlert.mensagemErro(StringUtility.selectedNull);
@@ -178,7 +187,7 @@ public class ControllerEditProject implements Initializable {
 
 		if (radioButtonProject.isSelected()) {
 			if (projeto != null) {
-				controllerDBProjeto.removeProject(projeto);
+				daoDBProjeto.removeProject(projeto);
 				MessageAlert.mensagemRealizadoSucesso(StringUtility.removeProject);
 			} else {
 				MessageAlert.mensagemErro(StringUtility.selectedProjeto);
@@ -188,7 +197,7 @@ public class ControllerEditProject implements Initializable {
 
 		if (radioButtonPackage.isSelected()) {
 			if (pacote != null) {
-				controllerDBProjeto.removePacote(pacote);
+				daoDBProjeto.removePacote(pacote);
 				tableViewPacote.setVisible(false);
 				tableViewProjeto.setVisible(true);
 				MessageAlert.mensagemRealizadoSucesso(StringUtility.removePacote);
@@ -202,14 +211,14 @@ public class ControllerEditProject implements Initializable {
 			if (classe != null) {
 				tableViewClass.setVisible(false);
 				tableViewProjeto.setVisible(true);
-				controllerDBProjeto.removeClass(classe);
+				daoDBProjeto.removeClass(classe);
 				MessageAlert.mensagemRealizadoSucesso(StringUtility.removeClass);
 			} else {
 				MessageAlert.mensagemErro(StringUtility.selectedClasse);
 				return;
 			}
 		}
-		
+
 		clean();
 		preecherTabelaProjeto();
 	}
@@ -222,9 +231,9 @@ public class ControllerEditProject implements Initializable {
 
 		tableColumnProjeto.setCellValueFactory(new PropertyValueFactory<Projeto, String>("nome"));
 
-		controllerDBProjeto = DaoDBProjeto.getInstance();
+		daoDBProjeto = DaoDBProjeto.getInstance();
 
-		listProjeto.addAll(controllerDBProjeto.getListProjeto());
+		listProjeto.addAll(daoDBProjeto.getListProjeto());
 
 		tableViewProjeto.setItems(listProjeto);
 	}

@@ -5,7 +5,7 @@ public class StringUtility {
 
 	public static String completeOperation = "Operação realizada com sucesso !";
 	
-	public static String erro = "Erro para realizar esta operação";
+	public static String erro = "Erro ao realizar esta operação";
 
 	public static String running = "Running";
 
