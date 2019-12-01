@@ -6,7 +6,7 @@ import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import javafx.application.Platform;
 
-public class UpdateProjetoDaemon implements Runnable {
+public class UpdateProjetoServer implements Runnable {
 
 	@Override
 	public void run() {

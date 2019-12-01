@@ -2,13 +2,12 @@ package br.edu.ifsc.canoinhas.controllerview;
 
 import java.io.IOException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 import br.edu.ifsc.canoinhas.App;
 import br.edu.ifsc.canoinhas.entities.Projeto;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBPacote;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
-import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateProjetoDaemon;
+import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateProjetoServer;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -54,7 +53,7 @@ public class ControllerPackageView implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 
 		try {
-			Thread updateProjeto = new Thread(new UpdateProjetoDaemon());
+			Thread updateProjeto = new Thread(new UpdateProjetoServer());
 			updateProjeto.start();
 			updateProjeto.join();
 
@@ -89,7 +88,7 @@ public class ControllerPackageView implements Initializable {
 		try {
 			
 			new DaoDBPacote().submitPacoteServer(String.valueOf(projeto.getId()), txtNamePackage.getText(), "add");
-			Thread updateProjeto = new Thread(new UpdateProjetoDaemon());
+			Thread updateProjeto = new Thread(new UpdateProjetoServer());
 			updateProjeto.start();
 			updateProjeto.join();
 		} catch (InterruptedException e) {

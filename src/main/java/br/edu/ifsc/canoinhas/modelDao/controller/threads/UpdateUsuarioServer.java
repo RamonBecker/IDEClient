@@ -2,9 +2,9 @@ package br.edu.ifsc.canoinhas.modelDao.controller.threads;
 
 import java.io.IOException;
 
-import br.edu.ifsc.canoinhas.modelDao.controller.DaoDBUsuario;
+import br.edu.ifsc.canoinhas.modelDao.controller.usuario.DaoDBUsuario;
 
-public class UpdateUsuarioDaemon implements Runnable {
+public class UpdateUsuarioServer implements Runnable {
 
 	@Override
 	public void run() {

@@ -2,12 +2,11 @@ package br.edu.ifsc.canoinhas.controllerview;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBClasse;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
-import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateProjetoDaemon;
+import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateProjetoServer;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,7 +21,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
 public class ControllerClassView implements Initializable {
 	@FXML
@@ -94,7 +92,7 @@ public class ControllerClassView implements Initializable {
 
 			clearFields();
 
-			Thread update = new Thread(new UpdateProjetoDaemon());
+			Thread update = new Thread(new UpdateProjetoServer());
 			update.start();
 			update.join();
 

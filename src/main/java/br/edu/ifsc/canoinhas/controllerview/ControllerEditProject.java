@@ -10,7 +10,7 @@ import br.edu.ifsc.canoinhas.entities.Projeto;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBClasse;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBPacote;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
-import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateProjetoDaemon;
+import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateProjetoServer;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.collections.FXCollections;
@@ -161,7 +161,7 @@ public class ControllerEditProject implements Initializable {
 				DaoDBClasse daoDBClasse = new DaoDBClasse();
 
 				try {
-					daoDBClasse.submitIdClasseServer(String.valueOf(classe.getId()), txtName.getText().trim(), "edit");
+					daoDBClasse.submitNameEditClasseServer(String.valueOf(classe.getId()), txtName.getText().trim(), "edit");
 					updateThread();
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -183,7 +183,7 @@ public class ControllerEditProject implements Initializable {
 	private void updateThread() {
 
 		try {
-			Thread updateThread = new Thread(new UpdateProjetoDaemon());
+			Thread updateThread = new Thread(new UpdateProjetoServer());
 			updateThread.start();
 			updateThread.join();
 		} catch (InterruptedException e) {
@@ -247,7 +247,7 @@ public class ControllerEditProject implements Initializable {
 				DaoDBClasse daoDBClasse = new DaoDBClasse();
 
 				try {
-					daoDBClasse.submitIdClasseServer(String.valueOf(classe.getId()), "", "remove");
+					daoDBClasse.submitNameEditClasseServer(String.valueOf(classe.getId()), "", "remove");
 					updateThread();
 				} catch (IOException e) {
 					e.printStackTrace();

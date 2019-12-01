@@ -36,7 +36,7 @@ public class DaoDBProjeto {
 
 	public void submitProjetoServer(String nome, String location, String operation) {
 		try {
-			
+
 			Socket server = new Socket(ipServer, portServer);
 			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
 			out.writeUTF("projeto;" + operation + ";" + nome + ";" + location);
@@ -72,13 +72,13 @@ public class DaoDBProjeto {
 
 		ObjectInputStream in = new ObjectInputStream(server.getInputStream());
 		String msg = in.readUTF();
-		 
-		if(msg.contains("Ok")) {
+
+		if (msg.contains("Ok")) {
 			MessageAlert.mensagemRealizadoSucesso(StringUtility.completeOperation);
-		}else {
+		} else {
 			MessageAlert.mensagemErro(StringUtility.erro);
 		}
-		 
+
 		in.close();
 		out.close();
 		server.close();
@@ -95,7 +95,6 @@ public class DaoDBProjeto {
 		ObjectInputStream in = new ObjectInputStream(server.getInputStream());
 		String msg = in.readUTF();
 		String[] createProjeto = null;
-
 
 		System.out.println(msg);
 
@@ -117,7 +116,7 @@ public class DaoDBProjeto {
 							createProjeto[2]);
 
 					for (int j = 0; j < createProjeto.length; j++) {
-						System.out.println("Create projeto: " + createProjeto[j]);
+						// System.out.println("Create projeto: " + createProjeto[j]);
 
 						if (createProjeto[j].contains(",")) {
 							String[] createPacote = createProjeto[j].split(",");
@@ -131,7 +130,6 @@ public class DaoDBProjeto {
 									String[] createClass = createPacote[k].split("/");
 
 									for (int l = 0; l < createClass.length; l++) {
-										System.out.println("Create Class" + createClass[l]);
 										Classe classe = new Classe(Integer.parseInt(createClass[l]),
 												createClass[l + 1]);
 										auxPacote.getListClasse().add(classe);
@@ -163,105 +161,11 @@ public class DaoDBProjeto {
 
 	}
 
-	public void addProjeto(String nameProject, String localProject) {
-
-		EntityManager em = Conn.getEntityManager();
-
-		try {
-
-			Projeto projetoNew = new Projeto(nameProject, localProject);
-
-			if (checkProjeto(nameProject.trim(), localProject.trim())) {
-				MessageAlert.mensagemErro(StringUtility.projetoIguais);
-				return;
-			}
-
-			addProjectBD(projetoNew);
-			MessageAlert.mensagemRealizadoSucesso(StringUtility.projectCreate);
-
-		} catch (IllegalArgumentException e) {
-			MessageAlert.mensagemErro(e.getMessage());
-		} finally {
-			em.close();
-		}
-	}
-
-	private void addProjectBD(Projeto projeto) {
-
-		EntityManager em = Conn.getEntityManager();
-		em.getTransaction().begin();
-		em.persist(projeto);
-		em.getTransaction().commit();
-		em.close();
-
-	}
-
-	private void loadListProjeto() {
-
-		EntityManager em = Conn.getEntityManager();
-
-		listProjeto = em.createQuery("SELECT PT FROM Projeto AS PT", Projeto.class).getResultList();
-
-		System.out.println(listProjeto);
-		em.close();
-	}
-
-	private Boolean checkProjeto(String nameProject, String localProject) {
-
-		loadListProjeto();
-
-		if (!listProjeto.isEmpty()) {
-			for (Projeto projeto : listProjeto) {
-				if (projeto.getNome().equals(nameProject) && projeto.getLocation().equals(localProject)) {
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
-
 	public List<Projeto> getListProjeto() {
 		return listProjeto;
 	}
 
-	public void addPackageToProject(Projeto projeto, String namePackage) {
 
-		if (projeto != null) {
-			System.out.println(projeto);
-			for (int i = 0; i < projeto.getListPacote().size(); i++) {
-				if (projeto.getListPacote().get(i).getNome().equals(namePackage)) {
-					MessageAlert.mensagemErro(StringUtility.packageExisting);
-					return;
-				}
-			}
-
-			Pacote pacote = new Pacote(namePackage);
-			addProject(projeto, pacote);
-
-			MessageAlert.mensagemRealizadoSucesso(StringUtility.pacoteCreate);
-		} else {
-			MessageAlert.mensagemErro(StringUtility.projectNull);
-		}
-
-	}
-
-	public void addProject(Projeto projeto, Pacote pacote) {
-
-		if (projeto != null && pacote != null) {
-
-			EntityManager em = Conn.getEntityManager();
-			em.getTransaction().begin();
-
-			Projeto searchProjeto = em.find(Projeto.class, projeto.getId());
-			searchProjeto.getListPacote().add(pacote);
-			em.getTransaction().commit();
-			em.close();
-
-		} else {
-			MessageAlert.mensagemErro(StringUtility.projectNull);
-		}
-	}
 
 	public void updateClasse(Projeto projeto, Pacote pacote, String nameClass, Boolean main, String typeClasse) {
 		if (projeto != null && pacote != null) {
@@ -287,6 +191,57 @@ public class DaoDBProjeto {
 
 		} else {
 			MessageAlert.mensagemErro(StringUtility.projectNull);
+		}
+	}
+
+	public void processFirstProjeto() {
+
+		for (Projeto projeto : listProjeto) {
+			if (projeto.getNome().equals("Meu projeto de teste")) {
+				for (Pacote pacote : projeto.getListPacote()) {
+					if (pacote.getNome().equals("Meu pacote de teste")) {
+						for (Classe classe : pacote.getListClasse()) {
+							if (classe.getNome().equals("Main")) {
+								classe.setCodigo(StringUtility.main);
+							}
+
+							if (classe.getNome().equals("CadastroEmpresa")) {
+								classe.setCodigo(StringUtility.cadastrarEmpresa);
+							}
+
+							if (classe.getNome().equals("Login")) {
+								classe.setCodigo(StringUtility.login);
+							}
+
+							if (classe.getNome().equals("Buscarempresa")) {
+								classe.setCodigo(StringUtility.buscarEmpresa);
+							}
+
+							if (classe.getNome().equals("Principal")) {
+								classe.setCodigo(StringUtility.telaPrincipal);
+							}
+
+							if (classe.getNome().equals("RedefinirSenhaUsuario")) {
+								classe.setCodigo(StringUtility.redefinirSenhaUsuario);
+							}
+
+							if (classe.getNome().equals("Atender Ocorrencia")) {
+								classe.setCodigo(StringUtility.classeAtenderOcorrencia);
+							}
+
+							try {
+							//	
+							//	new DaoDBClasse().submitIDClasseServer(String.valueOf(classe.getId()), "editCodigo");
+								new DaoDBClasse().submitCodigoEditClasseServer(String.valueOf(classe.getId()),classe.getCodigo(), "editCodigo");
+								
+								
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -329,79 +284,4 @@ public class DaoDBProjeto {
 //		addProjectBD(projeto);
 
 	}
-
-	public void editProject(Projeto projeto) {
-		EntityManager em = Conn.getEntityManager();
-
-		em.getTransaction().begin();
-
-		Projeto projetoSearch = em.find(Projeto.class, projeto.getId());
-		projetoSearch.setNome(projeto.getNome());
-
-		em.getTransaction().commit();
-		em.close();
-	}
-
-	public void editPacote(Pacote pacote) {
-		EntityManager em = Conn.getEntityManager();
-		em.getTransaction().begin();
-
-		Pacote pacoteSeach = em.find(Pacote.class, pacote.getId());
-
-		pacoteSeach.setNome(pacote.getNome());
-
-		em.getTransaction().commit();
-		em.close();
-	}
-
-	public void editClass(Classe classe) {
-		EntityManager em = Conn.getEntityManager();
-		em.getTransaction().begin();
-
-		Classe classeSearch = em.find(Classe.class, classe.getId());
-
-		classeSearch.setNome(classe.getNome());
-		classeSearch.setCodigo(classe.getCodigo());
-
-		em.getTransaction().commit();
-		em.close();
-	}
-
-	public void removeProject(Projeto projeto) {
-		EntityManager em = Conn.getEntityManager();
-
-		em.getTransaction().begin();
-
-		Projeto projetoSearch = em.find(Projeto.class, projeto.getId());
-
-		em.remove(projetoSearch);
-
-		em.getTransaction().commit();
-		em.close();
-	}
-
-	public void removePacote(Pacote pacote) {
-		EntityManager em = Conn.getEntityManager();
-		em.getTransaction().begin();
-
-		Pacote pacoteSearch = em.find(Pacote.class, pacote.getId());
-
-		em.remove(pacoteSearch);
-
-		em.getTransaction().commit();
-		em.close();
-	}
-
-	public void removeClass(Classe classe) {
-		EntityManager em = Conn.getEntityManager();
-		em.getTransaction().begin();
-
-		Classe classeSearch = em.find(Classe.class, classe.getId());
-
-		em.remove(classeSearch);
-
-		em.getTransaction().commit();
-		em.close();
-	}
-
 }

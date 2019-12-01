@@ -3,7 +3,7 @@ package br.edu.ifsc.canoinhas.controllerview;
 import java.io.IOException;
 
 import br.edu.ifsc.canoinhas.App;
-import br.edu.ifsc.canoinhas.modelDao.controller.DaoDBUsuario;
+import br.edu.ifsc.canoinhas.modelDao.controller.usuario.DaoDBUsuario;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.fxml.FXML;

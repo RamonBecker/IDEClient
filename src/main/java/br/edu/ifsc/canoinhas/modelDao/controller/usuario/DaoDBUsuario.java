@@ -1,4 +1,4 @@
-package br.edu.ifsc.canoinhas.modelDao.controller;
+package br.edu.ifsc.canoinhas.modelDao.controller.usuario;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -7,9 +7,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
 import br.edu.ifsc.canoinhas.entities.Usuario;
-import br.edu.ifsc.canoinhas.modelDao.Conn;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 
@@ -213,9 +211,6 @@ public class DaoDBUsuario {
 	}
 
 	public boolean login(String nameUser, String passwordUser) {
-
-		// loadUserBD();
-
 		for (Usuario usuario : listUsuario) {
 			if (usuario.getName().equals(nameUser) && usuario.getPassword().equals(passwordUser)) {
 				return true;

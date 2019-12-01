@@ -7,7 +7,8 @@ import java.util.ResourceBundle;
 import br.edu.ifsc.canoinhas.App;
 import br.edu.ifsc.canoinhas.entities.Empresa;
 import br.edu.ifsc.canoinhas.entities.Endereco;
-import br.edu.ifsc.canoinhas.modelDao.controller.DaoDBEmpresa;
+import br.edu.ifsc.canoinhas.modelDao.controller.empresa.DaoDBEmpresa;
+import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateEmpresaServer;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.collections.FXCollections;
@@ -81,7 +82,7 @@ public class ControllerEmpresaView implements Initializable {
 	@FXML
 	private TextField txtTelefone;
 
-	private DaoDBEmpresa controllerDBEmpresa;
+	private DaoDBEmpresa daoDBEmpresa;
 
 	private Empresa empresa;
 
@@ -89,7 +90,19 @@ public class ControllerEmpresaView implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		preencherTabela();
+		// preencherTabela();
+		update();
+	}
+
+	private void update() {
+
+		try {
+			Thread updateEmpresa = new Thread(new UpdateEmpresaServer());
+			updateEmpresa.start();
+			updateEmpresa.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void back() {
@@ -114,29 +127,15 @@ public class ControllerEmpresaView implements Initializable {
 
 	public void salvar() {
 
-		try {
+		daoDBEmpresa = DaoDBEmpresa.getInstance();
 
-//			Endereco endereco = new Endereco(txtRua.getText().trim(), txtBairro.getText().trim(),
-//					txtNumero.getText().trim(), txtTelefone.getText().trim(), txtEstado.getText().trim(), txtCEP.getText().trim(),
-//					txtCidade.getText().trim());
+		daoDBEmpresa.submitUsuarioServer(txtNameEmpresa.getText(), txtCNPJ.getText(), txtRua.getText(),
+				txtBairro.getText(), txtNumero.getText(), txtTelefone.getText(), txtEstado.getText(), txtCEP.getText(),
+				txtCidade.getText(), "add");
 
-			Endereco endereco = new Endereco(txtRua.getText().trim(), txtBairro.getText().trim(),
-					txtNumero.getText().trim(), txtEstado.getText().trim(), txtCEP.getText().trim(),
-					txtCidade.getText().trim(), txtTelefone.getText().trim(), "");
+		cleanFields();
+		// preencherTabela();
 
-			Empresa empresa = new Empresa(txtNameEmpresa.getText().trim(), txtCNPJ.getText().trim(), endereco);
-
-			controllerDBEmpresa = DaoDBEmpresa.getInstance();
-
-			controllerDBEmpresa.addEmpresa(empresa);
-
-			MessageAlert.mensagemRealizadoSucesso(StringUtility.registerEmpresaSucess);
-			cleanFields();
-			preencherTabela();
-
-		} catch (IllegalArgumentException e) {
-			MessageAlert.mensagemErro(e.getMessage());
-		}
 	}
 
 	public void preencherTabela() {
@@ -151,9 +150,9 @@ public class ControllerEmpresaView implements Initializable {
 			columnEndereco.setCellValueFactory(new PropertyValueFactory<Empresa, Endereco>("endereco"));
 			columnNome.setCellValueFactory(new PropertyValueFactory<Empresa, String>("nome"));
 
-			controllerDBEmpresa = DaoDBEmpresa.getInstance();
+			daoDBEmpresa = DaoDBEmpresa.getInstance();
 
-			listEmpresa.addAll(controllerDBEmpresa.getListEmpresa());
+			listEmpresa.addAll(daoDBEmpresa.getListEmpresa());
 
 			tableEmpresa.setItems(listEmpresa);
 		}
@@ -180,7 +179,7 @@ public class ControllerEmpresaView implements Initializable {
 	public void deleteEmpresa() {
 
 		if (empresa != null) {
-			controllerDBEmpresa.deleteEmpresa(empresa);
+			daoDBEmpresa.deleteEmpresa(empresa);
 			MessageAlert.mensagemRealizadoSucesso(StringUtility.removeEmpresa);
 			preencherTabela();
 		}
@@ -225,9 +224,9 @@ public class ControllerEmpresaView implements Initializable {
 			empresa.getEndereco().setRua(txtRua.getText());
 			empresa.getEndereco().setTelefone(txtTelefone.getText());
 
-			controllerDBEmpresa = DaoDBEmpresa.getInstance();
+			daoDBEmpresa = DaoDBEmpresa.getInstance();
 
-			controllerDBEmpresa.updateEmpresa(empresa);
+			daoDBEmpresa.updateEmpresa(empresa);
 
 			btnCadastrar.setDisable(false);
 			btnSalvar.setDisable(true);

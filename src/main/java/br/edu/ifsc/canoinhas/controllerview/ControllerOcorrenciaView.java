@@ -5,7 +5,7 @@ import java.io.IOException;
 import br.edu.ifsc.canoinhas.App;
 import br.edu.ifsc.canoinhas.entities.Endereco;
 import br.edu.ifsc.canoinhas.entities.Ocorrencia;
-import br.edu.ifsc.canoinhas.modelDao.controller.DaoDBOcorrencia;
+import br.edu.ifsc.canoinhas.modelDao.controller.ocorrencia.DaoDBOcorrencia;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.fxml.FXML;

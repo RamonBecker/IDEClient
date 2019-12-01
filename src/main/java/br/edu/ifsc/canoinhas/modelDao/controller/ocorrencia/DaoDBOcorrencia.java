@@ -1,4 +1,4 @@
-package br.edu.ifsc.canoinhas.modelDao.controller;
+package br.edu.ifsc.canoinhas.modelDao.controller.ocorrencia;
 
 import java.util.List;
 

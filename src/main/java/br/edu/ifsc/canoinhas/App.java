@@ -3,7 +3,7 @@ package br.edu.ifsc.canoinhas;
 import java.io.IOException;
 
 import br.edu.ifsc.canoinhas.modelDao.Conn;
-import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateProjetoDaemon;
+import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateProjetoServer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,11 +19,6 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException, InterruptedException {
-
-		Thread requestProjeto = new Thread(new UpdateProjetoDaemon());
-
-		requestProjeto.start();
-		requestProjeto.join();
 		
 		scene = new Scene(loadFXML("TelaIDEPrincipal"));
 		stage.setScene(scene);

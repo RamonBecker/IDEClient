@@ -3,14 +3,12 @@ package br.edu.ifsc.canoinhas.controllerview;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import javax.transaction.Transactional.TxType;
-
 import br.edu.ifsc.canoinhas.App;
 import br.edu.ifsc.canoinhas.entities.Classe;
 import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
+import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateProjetoServer;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -106,7 +104,7 @@ public class ControllerIDEView implements Initializable {
 
 	private Classe classe;
 
-	private DaoDBProjeto controllerDBProjeto;
+	private DaoDBProjeto daoDBProjeto;
 
 	public void createNewProject(ActionEvent e) {
 		try {
@@ -161,13 +159,13 @@ public class ControllerIDEView implements Initializable {
 
 	public void updateProject() {
 
-		controllerDBProjeto = DaoDBProjeto.getInstance();
+		daoDBProjeto = DaoDBProjeto.getInstance();
 
 		columnProjeto.setCellValueFactory(new PropertyValueFactory<Projeto, String>("nome"));
 
 		ObservableList<Projeto> listProjeto = FXCollections.observableArrayList();
 
-		listProjeto.addAll(controllerDBProjeto.getListProjeto());
+		listProjeto.addAll(daoDBProjeto.getListProjeto());
 
 		tableProjeto.setItems(listProjeto);
 
@@ -260,9 +258,9 @@ public class ControllerIDEView implements Initializable {
 			}
 		}
 
-		controllerDBProjeto = DaoDBProjeto.getInstance();
+		daoDBProjeto = DaoDBProjeto.getInstance();
 		classe.setCodigo(textAreaProgram.getText());
-		controllerDBProjeto.editClass(classe);
+		// controllerDBProjeto.editClass(classe);
 	}
 
 	public void clean() {
@@ -305,7 +303,20 @@ public class ControllerIDEView implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//updateProject();
+		daoDBProjeto = DaoDBProjeto.getInstance();
+		updateProjectDB();
+		daoDBProjeto.processFirstProjeto();
+		updateProject();
+	}
 
+	private void updateProjectDB() {
+
+		try {
+			Thread updateThread = new Thread(new UpdateProjetoServer());
+			updateThread.start();
+			updateThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

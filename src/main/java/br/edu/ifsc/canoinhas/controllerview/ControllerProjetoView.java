@@ -2,11 +2,8 @@ package br.edu.ifsc.canoinhas.controllerview;
 
 import java.io.IOException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ResourceBundle;
-
 import br.edu.ifsc.canoinhas.App;
-import br.edu.ifsc.canoinhas.entities.Projeto;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;

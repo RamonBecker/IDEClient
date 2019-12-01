@@ -3,11 +3,9 @@ package br.edu.ifsc.canoinhas.controllerview;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import br.edu.ifsc.canoinhas.App;
-import br.edu.ifsc.canoinhas.entities.Usuario;
-import br.edu.ifsc.canoinhas.modelDao.controller.DaoDBUsuario;
-import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateUsuarioDaemon;
+import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateUsuarioServer;
+import br.edu.ifsc.canoinhas.modelDao.controller.usuario.DaoDBUsuario;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.fxml.FXML;
@@ -170,7 +168,7 @@ public class ControllerResetRegisterUserView implements Initializable {
 	
 	private void update() {
 		try {
-			Thread updateUsuario = new Thread(new UpdateUsuarioDaemon());
+			Thread updateUsuario = new Thread(new UpdateUsuarioServer());
 			updateUsuario.start();
 			updateUsuario.join();
 		} catch (InterruptedException e) {
