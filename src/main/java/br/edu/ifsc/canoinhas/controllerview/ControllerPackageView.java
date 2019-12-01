@@ -8,7 +8,7 @@ import br.edu.ifsc.canoinhas.App;
 import br.edu.ifsc.canoinhas.entities.Projeto;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBPacote;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
-import br.edu.ifsc.canoinhas.modelDao.controller.projeto.UpdateProjetoDaemon;
+import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateProjetoDaemon;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -1,7 +1,8 @@
-package br.edu.ifsc.canoinhas.modelDao.controller.projeto;
+package br.edu.ifsc.canoinhas.modelDao.controller.threads;
 
 import java.io.IOException;
 
+import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import javafx.application.Platform;
 

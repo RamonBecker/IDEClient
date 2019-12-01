@@ -34,18 +34,19 @@
                   <Label layoutX="123.0" layoutY="39.0" prefHeight="25.0" prefWidth="38.0" text="User: " />
                   <Label layoutX="100.0" layoutY="79.0" text="New User:" />
                   <Label layoutX="101.0" layoutY="115.0" text="Password:" />
-                  <Button fx:id="btnConfirmar" layoutX="191.0" layoutY="226.0" mnemonicParsing="false" onAction="#registerNewUserPassword" prefHeight="25.0" prefWidth="96.0" text="Confirmar" />
-                  <RadioButton fx:id="radioSenha" layoutX="187.0" layoutY="188.0" mnemonicParsing="false" onAction="#alterUserPassword" text="Redefinir Senha">
+                  <Button fx:id="btnConfirmar" layoutX="187.0" layoutY="259.0" mnemonicParsing="false" onAction="#registerNewUserPassword" prefHeight="25.0" prefWidth="96.0" text="Confirmar" />
+                  <RadioButton fx:id="radioSenha" layoutX="123.0" layoutY="188.0" mnemonicParsing="false" onAction="#alterUserPassword" text="Redefinir Senha">
                      <toggleGroup>
                         <ToggleGroup fx:id="group1" />
                      </toggleGroup></RadioButton>
-                  <RadioButton fx:id="radioUsuario" layoutX="57.0" layoutY="188.0" mnemonicParsing="false" onAction="#alterUserPassword" text="Redefinir Usuário" toggleGroup="$group1" />
+                  <RadioButton fx:id="radioUsuario" layoutX="-11.0" layoutY="188.0" mnemonicParsing="false" onAction="#alterUserPassword" text="Redefinir Usuário" toggleGroup="$group1" />
                   <Label layoutX="71.0" layoutY="148.0" text="New Password: " />
                   <TextField fx:id="txtUser" layoutX="161.0" layoutY="39.0" prefHeight="25.0" prefWidth="155.0" />
                   <TextField fx:id="txtNewUser" layoutX="164.0" layoutY="75.0" prefHeight="25.0" prefWidth="155.0" />
                   <PasswordField fx:id="txtPassword" layoutX="164.0" layoutY="111.0" prefHeight="25.0" prefWidth="155.0" />
                   <PasswordField fx:id="txtNewPassword" layoutX="164.0" layoutY="144.0" prefHeight="25.0" prefWidth="155.0" />
-                  <RadioButton fx:id="radioCadastrar" layoutX="333.0" layoutY="188.0" mnemonicParsing="false" onAction="#alterUserPassword" text="Cadastrar" toggleGroup="$group1" />
+                  <RadioButton fx:id="radioCadastrar" layoutX="247.0" layoutY="188.0" mnemonicParsing="false" onAction="#alterUserPassword" text="Cadastrar" toggleGroup="$group1" />
+                  <RadioButton fx:id="radioButtonExcluirConta" layoutX="338.0" layoutY="188.0" mnemonicParsing="false" onAction="#alterUserPassword" text="Excluir conta de usuário" toggleGroup="$group1" />
                </children>
             </AnchorPane>
          </children>

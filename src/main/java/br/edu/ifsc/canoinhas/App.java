@@ -3,7 +3,7 @@ package br.edu.ifsc.canoinhas;
 import java.io.IOException;
 
 import br.edu.ifsc.canoinhas.modelDao.Conn;
-import br.edu.ifsc.canoinhas.modelDao.controller.projeto.UpdateProjetoDaemon;
+import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateProjetoDaemon;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,7 +24,7 @@ public class App extends Application {
 
 		requestProjeto.start();
 		requestProjeto.join();
-
+		
 		scene = new Scene(loadFXML("TelaIDEPrincipal"));
 		stage.setScene(scene);
 		stage.show();

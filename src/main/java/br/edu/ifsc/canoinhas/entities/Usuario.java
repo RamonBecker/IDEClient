@@ -11,6 +11,20 @@ public class Usuario {
 	public Usuario() {
 	}
 
+	public Usuario(int id, String name, String password) {
+		if (name.isEmpty() || name == null) {
+			throw new IllegalArgumentException(StringUtility.nomeUsuarioVazio);
+		}
+
+		if (password.isEmpty() || password == null) {
+			throw new IllegalArgumentException(StringUtility.senhaVazio);
+		}
+
+		this.id = id;
+		this.name = name;
+		this.password = password;
+	}
+
 	public Usuario(String name, String password) {
 
 		if (name.isEmpty() || name == null) {

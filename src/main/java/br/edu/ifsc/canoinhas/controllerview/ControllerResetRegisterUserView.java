@@ -1,14 +1,18 @@
 package br.edu.ifsc.canoinhas.controllerview;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import br.edu.ifsc.canoinhas.App;
 import br.edu.ifsc.canoinhas.entities.Usuario;
 import br.edu.ifsc.canoinhas.modelDao.controller.DaoDBUsuario;
+import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateUsuarioDaemon;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,7 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
-public class ControllerResetRegisterUserView {
+public class ControllerResetRegisterUserView implements Initializable {
 
 	public static String viewRedefinirUser = "";
 
@@ -52,8 +56,27 @@ public class ControllerResetRegisterUserView {
 
 	@FXML
 	private RadioButton radioCadastrar;
+	
+    @FXML
+    private RadioButton radioButtonExcluirConta;
 
+    
+    
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+	
+		try {
+			Thread updateUsuario = new Thread(new UpdateUsuarioDaemon());
+			updateUsuario.start();
+			updateUsuario.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+//		
+	}
+    
 	public void alterUserPassword() {
+		
 		if (radioUsuario.isSelected()) {
 			txtNewUser.setDisable(false);
 			txtNewPassword.setDisable(true);
@@ -67,6 +90,11 @@ public class ControllerResetRegisterUserView {
 		if (radioCadastrar.isSelected()) {
 			txtNewUser.setDisable(true);
 			txtNewPassword.setDisable(true);
+		}
+		
+		if(radioButtonExcluirConta.isSelected()) {
+			txtNewUser.setDisable(false);
+			txtNewPassword.setDisable(false);
 		}
 
 	}
@@ -109,7 +137,7 @@ public class ControllerResetRegisterUserView {
 
 	public void registerNewUserPassword() {
 
-		DaoDBUsuario controllerDBUsuario = DaoDBUsuario.getInstance();
+		DaoDBUsuario daoDBUsuario = DaoDBUsuario.getInstance();
 
 		try {
 			
@@ -121,17 +149,21 @@ public class ControllerResetRegisterUserView {
 			}
 
 			if (radioUsuario.isSelected()) {
-				controllerDBUsuario.alterNameUsuario(txtNewUser.getText().trim(), txtUser.getText().trim(),
+				daoDBUsuario.alterNameUsuario(txtNewUser.getText().trim(), txtUser.getText().trim(),
 						txtPassword.getText().trim());
 			}
 
 			if (radioSenha.isSelected()) {
-				controllerDBUsuario.alterPassword(txtUser.getText().trim(), txtPassword.getText().trim(),
+				daoDBUsuario.alterPassword(txtUser.getText().trim(), txtPassword.getText().trim(),
 						txtNewPassword.getText().trim());
 			}
 
 			if (radioCadastrar.isSelected()) {
-				controllerDBUsuario.addUsuario(new Usuario(txtUser.getText().trim(), txtPassword.getText().trim()));
+				//controllerDBUsuario.addUsuario(new Usuario(txtUser.getText().trim(), txtPassword.getText().trim()));
+				daoDBUsuario.submitUsuarioServer(txtUser.getText(), txtPassword.getText(), "add");
+			}
+			
+			if(radioButtonExcluirConta.isSelected()) {
 				
 			}
 			cleanFields();
@@ -157,4 +189,6 @@ public class ControllerResetRegisterUserView {
 		radioSenha.setSelected(false);
 		radioUsuario.setSelected(false);
 	}
+
+
 }

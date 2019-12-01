@@ -10,7 +10,7 @@ import br.edu.ifsc.canoinhas.entities.Projeto;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBClasse;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBPacote;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
-import br.edu.ifsc.canoinhas.modelDao.controller.projeto.UpdateProjetoDaemon;
+import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateProjetoDaemon;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.collections.FXCollections;
@@ -240,10 +240,19 @@ public class ControllerEditProject implements Initializable {
 
 		if (radioButtonClass.isSelected()) {
 			if (classe != null) {
+
 				tableViewClass.setVisible(false);
 				tableViewProjeto.setVisible(true);
-				daoDBProjeto.removeClass(classe);
-				MessageAlert.mensagemRealizadoSucesso(StringUtility.removeClass);
+
+				DaoDBClasse daoDBClasse = new DaoDBClasse();
+
+				try {
+					daoDBClasse.submitIdClasseServer(String.valueOf(classe.getId()), "", "remove");
+					updateThread();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
 			} else {
 				MessageAlert.mensagemErro(StringUtility.selectedClasse);
 				return;

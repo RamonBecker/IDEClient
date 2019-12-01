@@ -36,7 +36,7 @@ public class DaoDBProjeto {
 
 	public void submitProjetoServer(String nome, String location, String operation) {
 		try {
-
+			
 			Socket server = new Socket(ipServer, portServer);
 			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
 			out.writeUTF("projeto;" + operation + ";" + nome + ";" + location);
@@ -95,10 +95,7 @@ public class DaoDBProjeto {
 		ObjectInputStream in = new ObjectInputStream(server.getInputStream());
 		String msg = in.readUTF();
 		String[] createProjeto = null;
-		// String[] createPacote = null;
-		// String[] createClass = null;
-		String[] resultPacote = null;
-		String teste = "";
+
 
 		System.out.println(msg);
 
