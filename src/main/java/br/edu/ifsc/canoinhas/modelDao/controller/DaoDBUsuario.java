@@ -7,12 +7,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.EntityManager;
-
-import br.edu.ifsc.canoinhas.entities.Classe;
-import br.edu.ifsc.canoinhas.entities.Pacote;
-import br.edu.ifsc.canoinhas.entities.Projeto;
 import br.edu.ifsc.canoinhas.entities.Usuario;
 import br.edu.ifsc.canoinhas.modelDao.Conn;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
@@ -77,6 +72,48 @@ public class DaoDBUsuario {
 			String resposta = in.readUTF();
 
 			if (resposta.contentEquals("ok")) {
+				MessageAlert.mensagemRealizadoSucesso(StringUtility.completeOperation);
+			} else {
+				MessageAlert.mensagemErro(StringUtility.erro);
+			}
+
+			in.close();
+			out.close();
+			server.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void submitEditNameUsuarioServer(String oldNome, String newNome, String senha, String operation) {
+		 try {
+
+		int idUsuario = 0;
+		boolean check = false;
+
+		for (Usuario usuario : listUsuario) {
+			if (usuario.getName().equals(oldNome) && usuario.getPassword().equals(senha)) {
+				idUsuario = usuario.getId();
+				check = true;
+			}
+		}
+
+		if(!check) {
+			MessageAlert.mensagemErro("O usuário não existe");
+			return;
+		}
+		
+			Socket server = new Socket(ipServer, portServer);
+			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
+			out.writeUTF("usuario;" + operation + ";" + idUsuario + ";" + newNome + ";" + senha);
+			out.flush();
+
+			ObjectInputStream in = new ObjectInputStream(server.getInputStream());
+			String resposta = in.readUTF();
+
+			if (resposta.contentEquals("Ok")) {
 				MessageAlert.mensagemRealizadoSucesso(StringUtility.completeOperation);
 			} else {
 				MessageAlert.mensagemErro(StringUtility.erro);

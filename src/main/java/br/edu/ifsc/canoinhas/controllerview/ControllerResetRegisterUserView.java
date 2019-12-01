@@ -65,14 +65,8 @@ public class ControllerResetRegisterUserView implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	
-		try {
-			Thread updateUsuario = new Thread(new UpdateUsuarioDaemon());
-			updateUsuario.start();
-			updateUsuario.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-//		
+		update();
+		
 	}
     
 	public void alterUserPassword() {
@@ -149,8 +143,7 @@ public class ControllerResetRegisterUserView implements Initializable {
 			}
 
 			if (radioUsuario.isSelected()) {
-				daoDBUsuario.alterNameUsuario(txtNewUser.getText().trim(), txtUser.getText().trim(),
-						txtPassword.getText().trim());
+				daoDBUsuario.submitEditNameUsuarioServer(txtUser.getText(), txtNewUser.getText(), txtPassword.getText(), "editName");
 			}
 
 			if (radioSenha.isSelected()) {
@@ -159,7 +152,6 @@ public class ControllerResetRegisterUserView implements Initializable {
 			}
 
 			if (radioCadastrar.isSelected()) {
-				//controllerDBUsuario.addUsuario(new Usuario(txtUser.getText().trim(), txtPassword.getText().trim()));
 				daoDBUsuario.submitUsuarioServer(txtUser.getText(), txtPassword.getText(), "add");
 			}
 			
@@ -167,13 +159,25 @@ public class ControllerResetRegisterUserView implements Initializable {
 				
 			}
 			cleanFields();
+			update();
 
 		} catch (IllegalArgumentException e) {
 			MessageAlert.mensagemErro(e.getMessage());
 		}
 
 	}
-
+	
+	
+	private void update() {
+		try {
+			Thread updateUsuario = new Thread(new UpdateUsuarioDaemon());
+			updateUsuario.start();
+			updateUsuario.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private void cleanFields() {
 		txtNewPassword.setText("");
 		txtNewUser.setText("");
