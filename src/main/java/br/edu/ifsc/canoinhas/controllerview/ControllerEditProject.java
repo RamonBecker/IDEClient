@@ -206,8 +206,12 @@ public class ControllerEditProject implements Initializable {
 
 		if (radioButtonProject.isSelected()) {
 			if (projeto != null) {
-				daoDBProjeto.removeProject(projeto);
-				MessageAlert.mensagemRealizadoSucesso(StringUtility.removeProject);
+				try {
+					daoDBProjeto.submitIdProjectServer(String.valueOf(projeto.getId()), "", "remove");
+					updateThread();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			} else {
 				MessageAlert.mensagemErro(StringUtility.selectedProjeto);
 				return;
@@ -216,10 +220,18 @@ public class ControllerEditProject implements Initializable {
 
 		if (radioButtonPackage.isSelected()) {
 			if (pacote != null) {
-				daoDBProjeto.removePacote(pacote);
+				DaoDBPacote daoDBPacote = new DaoDBPacote();
+
+				try {
+					daoDBPacote.submitIdPacoteServer(String.valueOf(pacote.getId()), "", "remove");
+					updateThread();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
 				tableViewPacote.setVisible(false);
 				tableViewProjeto.setVisible(true);
-				MessageAlert.mensagemRealizadoSucesso(StringUtility.removePacote);
+
 			} else {
 				MessageAlert.mensagemErro(StringUtility.selectedPacote);
 				return;

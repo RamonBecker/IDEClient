@@ -49,7 +49,7 @@ public class DaoDBPacote {
 		ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
 		out.writeUTF("pacote;" + operation + ";" + idPacote + ";" + newName);
 		out.flush();
-
+//
 		ObjectInputStream in = new ObjectInputStream(server.getInputStream());
 		String msg = in.readUTF();
 
