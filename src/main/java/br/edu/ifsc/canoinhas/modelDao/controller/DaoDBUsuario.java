@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -24,7 +25,8 @@ public class DaoDBUsuario {
 	private String ipServer = "localhost";
 	private int portServer = 1024;
 
-	public DaoDBUsuario() {
+	private DaoDBUsuario() {
+		this.listUsuario = new ArrayList<Usuario>();
 	}
 
 	public static DaoDBUsuario getInstance() {
@@ -50,11 +52,13 @@ public class DaoDBUsuario {
 		if (!msg.contains("404") && msg.length() > 0) {
 
 			String[] splitResult = msg.split(";");
-			for (String string : splitResult) {
-				System.out.println(string);
+			for (int i = 0; i < splitResult.length - 1; i++) {
+				listUsuario.add(new Usuario(Integer.parseInt(splitResult[i]), splitResult[i + 1], splitResult[i + 2]));
+				i += 2;
 			}
 		}
 
+		System.out.println(listUsuario);
 		in.close();
 		out.close();
 		server.close();
@@ -63,7 +67,7 @@ public class DaoDBUsuario {
 
 	public void submitUsuarioServer(String nome, String senha, String operation) {
 		try {
-			
+
 			Socket server = new Socket(ipServer, portServer);
 			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
 			out.writeUTF("usuario;" + operation + ";" + nome + ";" + senha);
@@ -85,8 +89,7 @@ public class DaoDBUsuario {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 
 	public void loadUserBD() {

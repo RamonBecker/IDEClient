@@ -10,7 +10,7 @@ public class UpdateUsuarioDaemon implements Runnable {
 	public void run() {
 
 		try {
-			DaoDBUsuario daoDBUsuario = new DaoDBUsuario();
+			DaoDBUsuario daoDBUsuario = DaoDBUsuario.getInstance();
 			daoDBUsuario.getListUsuario().clear();
 			daoDBUsuario.getAllUsuario();
 		} catch (IOException e) {
