@@ -31,6 +31,47 @@ public class DaoDBUsuario {
 		return controllerDBUsuario;
 	}
 
+	public void submitRemoveUsuarioServer(String name, String senha, String operation) {
+		try {
+
+			int idUsuario = 0;
+			boolean check = false;
+
+			for (Usuario usuario : listUsuario) {
+				if (usuario.getName().equals(name) && usuario.getPassword().equals(senha)) {
+					idUsuario = usuario.getId();
+					check = true;
+				}
+			}
+
+			if (!check) {
+				MessageAlert.mensagemErro("O usuário não existe");
+				return;
+			}
+
+			Socket server = new Socket(ipServer, portServer);
+			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
+			out.writeUTF("usuario;" + operation + ";" + idUsuario + ";");
+			out.flush();
+
+			ObjectInputStream in = new ObjectInputStream(server.getInputStream());
+			String resposta = in.readUTF();
+
+			if (resposta.contentEquals("Ok")) {
+				MessageAlert.mensagemRealizadoSucesso(StringUtility.completeOperation);
+			} else {
+				MessageAlert.mensagemErro(StringUtility.erro);
+			}
+
+			in.close();
+			out.close();
+			server.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void getAllUsuario() throws UnknownHostException, IOException {
 
 		Socket server = new Socket(ipServer, portServer);
@@ -88,23 +129,23 @@ public class DaoDBUsuario {
 	}
 
 	public void submitEditNameUsuarioServer(String oldNome, String newNome, String senha, String operation) {
-		 try {
+		try {
 
-		int idUsuario = 0;
-		boolean check = false;
+			int idUsuario = 0;
+			boolean check = false;
 
-		for (Usuario usuario : listUsuario) {
-			if (usuario.getName().equals(oldNome) && usuario.getPassword().equals(senha)) {
-				idUsuario = usuario.getId();
-				check = true;
+			for (Usuario usuario : listUsuario) {
+				if (usuario.getName().equals(oldNome) && usuario.getPassword().equals(senha)) {
+					idUsuario = usuario.getId();
+					check = true;
+				}
 			}
-		}
 
-		if(!check) {
-			MessageAlert.mensagemErro("O usuário não existe");
-			return;
-		}
-		
+			if (!check) {
+				MessageAlert.mensagemErro("O usuário não existe");
+				return;
+			}
+
 			Socket server = new Socket(ipServer, portServer);
 			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
 			out.writeUTF("usuario;" + operation + ";" + idUsuario + ";" + newNome + ";" + senha);
@@ -129,77 +170,51 @@ public class DaoDBUsuario {
 
 	}
 
-	public void loadUserBD() {
-		EntityManager em = Conn.getEntityManager();
-		listUsuario = em.createQuery("FROM Usuario", Usuario.class).getResultList();
-		em.close();
-	}
+	public void submitEditPasswordUsuarioServer(String nome, String senha, String newSenha, String operation) {
+		try {
 
-	public void addUsuario(Usuario usuario) {
-		EntityManager em = Conn.getEntityManager();
-		em.getTransaction().begin();
-		em.persist(usuario);
-		em.getTransaction().commit();
-		em.close();
-		MessageAlert.mensagemRealizadoSucesso(StringUtility.createUser);
-	}
+			int idUsuario = 0;
+			boolean check = false;
 
-	public void updateUsuario(Usuario usuario) {
-		EntityManager em = Conn.getEntityManager();
-		em.getTransaction().begin();
-
-		Usuario searchUser = em.find(Usuario.class, usuario.getId());
-
-		searchUser.setName(usuario.getName());
-		searchUser.setPassword(usuario.getPassword());
-		em.getTransaction().commit();
-		em.close();
-	}
-
-	public void alterNameUsuario(String newName, String oldName, String password) {
-		loadUserBD();
-
-		Usuario user = null;
-
-		for (Usuario usuario : listUsuario) {
-			if (usuario.getName().equals(oldName) && usuario.getPassword().equals(password)) {
-				user = usuario;
-				break;
+			for (Usuario usuario : listUsuario) {
+				if (usuario.getName().equals(nome) && usuario.getPassword().equals(senha)) {
+					idUsuario = usuario.getId();
+					check = true;
+				}
 			}
-		}
 
-		if (user != null) {
-			user.setName(newName);
-			updateUsuario(user);
-			MessageAlert.mensagemRealizadoSucesso(StringUtility.alterUser);
-		} else {
-			MessageAlert.mensagemErro(StringUtility.loginIncorret);
-		}
-	}
-
-	public void alterPassword(String nameUser, String oldPassword, String newPassword) {
-		loadUserBD();
-		Usuario user = null;
-
-		for (Usuario usuario : listUsuario) {
-			if (usuario.getName().equals(nameUser) && usuario.getPassword().equals(oldPassword)) {
-				user = usuario;
-				break;
+			if (!check) {
+				MessageAlert.mensagemErro("O usuário não existe");
+				return;
 			}
+
+			Socket server = new Socket(ipServer, portServer);
+			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
+			out.writeUTF("usuario;" + operation + ";" + idUsuario + ";" + nome + ";" + newSenha);
+			out.flush();
+
+			ObjectInputStream in = new ObjectInputStream(server.getInputStream());
+			String resposta = in.readUTF();
+
+			if (resposta.contentEquals("Ok")) {
+				MessageAlert.mensagemRealizadoSucesso(StringUtility.completeOperation);
+			} else {
+				MessageAlert.mensagemErro(StringUtility.erro);
+			}
+
+			in.close();
+			out.close();
+			server.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		if (user != null) {
-			user.setPassword(newPassword);
-			updateUsuario(user);
-			MessageAlert.mensagemRealizadoSucesso(StringUtility.alterPass);
-		} else {
-			MessageAlert.mensagemErro(StringUtility.loginIncorret);
-		}
 	}
 
 	public boolean login(String nameUser, String passwordUser) {
 
-		loadUserBD();
+		// loadUserBD();
 
 		for (Usuario usuario : listUsuario) {
 			if (usuario.getName().equals(nameUser) && usuario.getPassword().equals(passwordUser)) {

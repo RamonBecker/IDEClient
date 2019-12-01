@@ -87,8 +87,8 @@ public class ControllerResetRegisterUserView implements Initializable {
 		}
 		
 		if(radioButtonExcluirConta.isSelected()) {
-			txtNewUser.setDisable(false);
-			txtNewPassword.setDisable(false);
+			txtNewUser.setDisable(true);
+			txtNewPassword.setDisable(true);
 		}
 
 	}
@@ -147,8 +147,8 @@ public class ControllerResetRegisterUserView implements Initializable {
 			}
 
 			if (radioSenha.isSelected()) {
-				daoDBUsuario.alterPassword(txtUser.getText().trim(), txtPassword.getText().trim(),
-						txtNewPassword.getText().trim());
+				
+				daoDBUsuario.submitEditPasswordUsuarioServer(txtUser.getText(), txtPassword.getText(), txtNewPassword.getText(), "editSenha");
 			}
 
 			if (radioCadastrar.isSelected()) {
@@ -156,7 +156,7 @@ public class ControllerResetRegisterUserView implements Initializable {
 			}
 			
 			if(radioButtonExcluirConta.isSelected()) {
-				
+				daoDBUsuario.submitRemoveUsuarioServer(txtUser.getText(), txtPassword.getText(), "remove");
 			}
 			cleanFields();
 			update();
