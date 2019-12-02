@@ -90,8 +90,9 @@ public class ControllerEmpresaView implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// preencherTabela();
+
 		update();
+		preencherTabela();
 	}
 
 	private void update() {
@@ -129,12 +130,12 @@ public class ControllerEmpresaView implements Initializable {
 
 		daoDBEmpresa = DaoDBEmpresa.getInstance();
 
-		daoDBEmpresa.submitUsuarioServer(txtNameEmpresa.getText(), txtCNPJ.getText(), txtRua.getText(),
+		daoDBEmpresa.submitEmpresaServer(txtNameEmpresa.getText(), txtCNPJ.getText(), txtRua.getText(),
 				txtBairro.getText(), txtNumero.getText(), txtTelefone.getText(), txtEstado.getText(), txtCEP.getText(),
 				txtCidade.getText(), "add");
-
+		update();
 		cleanFields();
-		// preencherTabela();
+		preencherTabela();
 
 	}
 
@@ -179,8 +180,8 @@ public class ControllerEmpresaView implements Initializable {
 	public void deleteEmpresa() {
 
 		if (empresa != null) {
-			daoDBEmpresa.deleteEmpresa(empresa);
-			MessageAlert.mensagemRealizadoSucesso(StringUtility.removeEmpresa);
+			daoDBEmpresa.submitRemoveEmpresaServer(String.valueOf(empresa.getId()), "remove");
+			update();
 			preencherTabela();
 		}
 	}
@@ -202,7 +203,7 @@ public class ControllerEmpresaView implements Initializable {
 			txtTelefone.setText(empresa.getEndereco().getTelefone());
 			txtNameEmpresa.setText(empresa.getNome());
 			txtCNPJ.setText(empresa.getCnpj());
-
+			
 			edit = false;
 
 		} else {
@@ -225,13 +226,20 @@ public class ControllerEmpresaView implements Initializable {
 			empresa.getEndereco().setTelefone(txtTelefone.getText());
 
 			daoDBEmpresa = DaoDBEmpresa.getInstance();
-
-			daoDBEmpresa.updateEmpresa(empresa);
-
+			
+			daoDBEmpresa.submitEmpresaServer(String.valueOf(empresa.getId()),empresa.getNome(), empresa.getCnpj(), 
+					empresa.getEndereco().getRua(), empresa.getEndereco().getBairro(), 
+					empresa.getEndereco().getNumero(), empresa.getEndereco().getTelefone(), 
+					empresa.getEndereco().getEstado(), empresa.getEndereco().getCep(), 
+					empresa.getEndereco().getCidade(), "edit");
+			
+			
+			
 			btnCadastrar.setDisable(false);
 			btnSalvar.setDisable(true);
 			btnDeletar.setDisable(false);
-
+			
+			update();
 			cleanFields();
 			preencherTabela();
 			MessageAlert.mensagemRealizadoSucesso(StringUtility.registerAlterEmpresaSucess);

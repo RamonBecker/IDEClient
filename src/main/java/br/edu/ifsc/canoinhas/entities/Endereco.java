@@ -53,8 +53,7 @@ public class Endereco {
 
 	}
 
-	public Endereco(String rua, String bairro, String numero, String estado, String cep, String cidade, String telefone,
-			String teste) {
+	public Endereco(int id,String rua, String bairro, String numero, String estado, String cep, String cidade, String telefone) {
 
 		if (rua.isEmpty() || rua == null) {
 			throw new IllegalArgumentException(StringUtility.ruaVazio);
@@ -84,6 +83,7 @@ public class Endereco {
 			throw new IllegalArgumentException(StringUtility.telefoneVazio);
 		}
 
+		this.id = id;
 		this.rua = rua;
 		this.bairro = bairro;
 		this.numero = numero;

@@ -14,7 +14,7 @@ public class Empresa {
 	public Empresa() {
 	}
 
-	public Empresa(String nome, String cnpj, Endereco endereco) {
+	public Empresa(int id,String nome, String cnpj, Endereco endereco) {
 
 		if (nome.isEmpty() || nome == null) {
 			throw new IllegalArgumentException(StringUtility.nomeVazio);
@@ -27,7 +27,8 @@ public class Empresa {
 		if (endereco == null) {
 			throw new IllegalArgumentException(StringUtility.enderecoVazio);
 		}
-
+		
+		this.id = id;
 		this.nome = nome;
 		this.cnpj = cnpj;
 		this.endereco = endereco;

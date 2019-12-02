@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import br.edu.ifsc.canoinhas.entities.Empresa;
+import br.edu.ifsc.canoinhas.entities.Endereco;
 import br.edu.ifsc.canoinhas.modelDao.Conn;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
@@ -42,6 +43,20 @@ public class DaoDBEmpresa {
 		ObjectInputStream in = new ObjectInputStream(server.getInputStream());
 		String msg = in.readUTF();
 
+		String[] resultMSG = msg.split("-");
+
+		for (int i = 0; i < resultMSG.length; i++) {
+			if (resultMSG[i].contains(";")) {
+				String[] createEmpresa = resultMSG[i].split(";");
+
+				Endereco endereco = new Endereco(Integer.parseInt(createEmpresa[3]), createEmpresa[4], createEmpresa[5],
+						createEmpresa[6], createEmpresa[7], createEmpresa[8], createEmpresa[9], createEmpresa[10]);
+				Empresa empresa = new Empresa(Integer.parseInt(createEmpresa[0]), createEmpresa[1], createEmpresa[2],
+						endereco);
+				listEmpresa.add(empresa);
+			}
+		}
+
 		System.out.println(msg);
 
 		in.close();
@@ -49,18 +64,40 @@ public class DaoDBEmpresa {
 		server.close();
 
 	}
-	
-	public void submitUsuarioServer(String nome, String cnpj, String rua, 
-			String bairro, String numero, String telefone,
-			String estado, String cep, String cidade,String operation) {
+
+	public void submitRemoveEmpresaServer(String idEmpresa, String operation) {
+		try {
+			Socket server = new Socket(ipServer, portServer);
+			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
+			out.writeUTF("empresa;" + operation + ";" + idEmpresa);
+			out.flush();
+
+			ObjectInputStream in = new ObjectInputStream(server.getInputStream());
+			String resposta = in.readUTF();
+
+			if (resposta.contentEquals("Ok")) {
+				MessageAlert.mensagemRealizadoSucesso(StringUtility.completeOperation);
+			} else {
+				MessageAlert.mensagemErro(StringUtility.erro);
+			}
+
+			in.close();
+			out.close();
+			server.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void submitEmpresaServer(String nome, String cnpj, String rua, String bairro, String numero, String telefone,
+			String estado, String cep, String cidade, String operation) {
 		try {
 
 			Socket server = new Socket(ipServer, portServer);
 			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
-			out.writeUTF("empresa;" + operation + ";" + nome + ";"
-					+cnpj+";"+rua+";"+bairro+";"+numero+";"+telefone+";"
-					+estado+";"+cep+";"+cidade
-					);
+			out.writeUTF("empresa;" + operation + ";" + nome + ";" + cnpj + ";" + rua + ";" + bairro + ";" + numero
+					+ ";" + telefone + ";" + estado + ";" + cep + ";" + cidade);
 			out.flush();
 
 			ObjectInputStream in = new ObjectInputStream(server.getInputStream());
@@ -81,47 +118,36 @@ public class DaoDBEmpresa {
 		}
 
 	}
-	
-	public void addEmpresa(Empresa empresa) {
-		EntityManager em = Conn.getEntityManager();
-		em.getTransaction().begin();
-		em.persist(empresa);
-		em.getTransaction().commit();
-		em.close();
+
+	public void submitEmpresaServer(String id, String nome, String cnpj, String rua, String bairro, String numero,
+			String telefone, String estado, String cep, String cidade, String operation) {
+		try {
+
+			Socket server = new Socket(ipServer, portServer);
+			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
+			out.writeUTF("empresa;" + operation + ";" + id + ";" + nome + ";" + cnpj + ";" + rua + ";" + bairro + ";"
+					+ numero + ";" + telefone + ";" + estado + ";" + cep + ";" + cidade);
+			out.flush();
+
+			ObjectInputStream in = new ObjectInputStream(server.getInputStream());
+			String resposta = in.readUTF();
+
+			if (resposta.contentEquals("Ok")) {
+				MessageAlert.mensagemRealizadoSucesso(StringUtility.completeOperation);
+			} else {
+				MessageAlert.mensagemErro(StringUtility.erro);
+			}
+
+			in.close();
+			out.close();
+			server.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
-	public void deleteEmpresa(Empresa empresa) {
-		EntityManager em = Conn.getEntityManager();
-		em.getTransaction().begin();
-		Empresa empresaSearch = em.find(Empresa.class, empresa.getId());
-		em.remove(empresaSearch);
-		em.getTransaction().commit();
-		em.close();
-	}
-
-	public void updateEmpresa(Empresa empresa) {
-
-		EntityManager em = Conn.getEntityManager();
-
-		em.getTransaction().begin();
-
-		Empresa empresaSearch = em.find(Empresa.class, empresa.getId());
-
-		empresaSearch.setCnpj(empresa.getCnpj());
-		empresaSearch.setNome(empresa.getNome());
-
-		empresaSearch.getEndereco().setBairro(empresa.getEndereco().getBairro());
-		empresaSearch.getEndereco().setCep(empresa.getEndereco().getCep());
-		empresaSearch.getEndereco().setCidade(empresa.getEndereco().getCidade());
-		empresaSearch.getEndereco().setEstado(empresa.getEndereco().getEstado());
-		empresaSearch.getEndereco().setNumero(empresa.getEndereco().getNumero());
-		empresaSearch.getEndereco().setRua(empresa.getEndereco().getRua());
-		empresaSearch.getEndereco().setTelefone(empresa.getEndereco().getTelefone());
-
-		System.out.println("Empresa BD:" + empresaSearch);
-		em.getTransaction().commit();
-		em.close();
-	}
 
 	public List<Empresa> getListEmpresa() {
 		return listEmpresa;
