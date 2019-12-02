@@ -130,10 +130,14 @@ public class DaoDBProjeto {
 									String[] createClass = createPacote[k].split("/");
 
 									for (int l = 0; l < createClass.length; l++) {
+										System.out.println(createClass[l]);
 										Classe classe = new Classe(Integer.parseInt(createClass[l]),
 												createClass[l + 1]);
+
+										classe.setTypeClasse(createClass[l + 2]);
+										classe.setMain(createClass[l + 3]);
 										auxPacote.getListClasse().add(classe);
-										l++;
+										l += 3;
 									}
 
 								} else {
@@ -164,8 +168,6 @@ public class DaoDBProjeto {
 	public List<Projeto> getListProjeto() {
 		return listProjeto;
 	}
-
-
 
 	public void updateClasse(Projeto projeto, Pacote pacote, String nameClass, Boolean main, String typeClasse) {
 		if (projeto != null && pacote != null) {
@@ -230,11 +232,12 @@ public class DaoDBProjeto {
 							}
 
 							try {
-							//	
-							//	new DaoDBClasse().submitIDClasseServer(String.valueOf(classe.getId()), "editCodigo");
-								new DaoDBClasse().submitCodigoEditClasseServer(String.valueOf(classe.getId()),classe.getCodigo(), "editCodigo");
-								
-								
+								//
+								// new DaoDBClasse().submitIDClasseServer(String.valueOf(classe.getId()),
+								// "editCodigo");
+								new DaoDBClasse().submitCodigoEditClasseServer(String.valueOf(classe.getId()),
+										classe.getCodigo(), "editCodigo");
+
 							} catch (IOException e) {
 								e.printStackTrace();
 							}

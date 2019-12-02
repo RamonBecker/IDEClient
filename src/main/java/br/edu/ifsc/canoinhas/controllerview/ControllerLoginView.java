@@ -1,13 +1,17 @@
 package br.edu.ifsc.canoinhas.controllerview;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import br.edu.ifsc.canoinhas.App;
+import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateUsuarioServer;
 import br.edu.ifsc.canoinhas.modelDao.controller.usuario.DaoDBUsuario;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,7 +20,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class ControllerLoginView {
+public class ControllerLoginView implements Initializable {
 
 	@FXML
 	private TextField txtuserName;
@@ -29,6 +33,22 @@ public class ControllerLoginView {
 
 	@FXML
 	private PasswordField txtSenha;
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		update();
+	}
+
+	private void update() {
+
+		try {
+			Thread updateThread = new Thread(new UpdateUsuarioServer());
+			updateThread.start();
+			updateThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void login() {
 
@@ -85,4 +105,5 @@ public class ControllerLoginView {
 		txtSenha.setText("");
 		txtuserName.setText("");
 	}
+
 }

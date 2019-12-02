@@ -7,7 +7,9 @@ import br.edu.ifsc.canoinhas.App;
 import br.edu.ifsc.canoinhas.entities.Classe;
 import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;
+import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBClasse;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
+import br.edu.ifsc.canoinhas.modelDao.controller.projeto.UpdateView;
 import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateProjetoServer;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.collections.FXCollections;
@@ -111,10 +113,12 @@ public class ControllerIDEView implements Initializable {
 			Stage stage = new Stage();
 			FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("TelaCriacaoProjeto.fxml"));
 			Parent root;
-
+			UpdateView update = UpdateView.getInstance();
+			update.setControllerIDEView(this);
 			root = (Parent) fxmlLoader.load();
 			stage.setScene(new Scene(root));
 			stage.show();
+			
 
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -207,6 +211,16 @@ public class ControllerIDEView implements Initializable {
 		tableClasse.setVisible(true);
 
 		btnBackPackage.setDisable(false);
+		for (Classe classe : pacote.getListClasse()) {
+
+			classe.setCodigoClasse(classe.getMain(), classe.getTypeClasse());
+			try {
+				new DaoDBClasse().submitCodigoEditClasseServer(String.valueOf(classe.getId()), classe.getCodigo(),
+						"editCodigo");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void getClassCodigo() {
@@ -260,7 +274,13 @@ public class ControllerIDEView implements Initializable {
 
 		daoDBProjeto = DaoDBProjeto.getInstance();
 		classe.setCodigo(textAreaProgram.getText());
-		// controllerDBProjeto.editClass(classe);
+
+		try {
+			new DaoDBClasse().submitCodigoEditClasseServer(String.valueOf(classe.getId()), classe.getCodigo(),
+					"editCodigo");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void clean() {

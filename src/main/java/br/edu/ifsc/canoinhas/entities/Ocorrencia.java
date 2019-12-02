@@ -16,7 +16,7 @@ public class Ocorrencia {
 	public Ocorrencia() {
 	}
 
-	public Ocorrencia(int id,String nomeVitima, String gravidade, Endereco endereco) {
+	public Ocorrencia(int id,String nomeVitima, String gravidade, String status, Endereco endereco) {
 
 		if (nomeVitima.isEmpty() || nomeVitima.isBlank()) {
 			throw new IllegalArgumentException(StringUtility.nomeVitimaVazio);
@@ -33,7 +33,7 @@ public class Ocorrencia {
 		this.nomeVitima = nomeVitima;
 		this.gravidade = gravidade;
 		this.endereco = endereco;
-		this.status = StringUtility.ocorrenciaAndamento;
+		this.status = status;
 	}
 
 	public String getNomeVitima() {

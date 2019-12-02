@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import br.edu.ifsc.canoinhas.App;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
+import br.edu.ifsc.canoinhas.modelDao.controller.projeto.UpdateView;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.collections.FXCollections;
@@ -71,6 +72,10 @@ public class ControllerProjetoView implements Initializable {
 		txtLocalProject.setText("local\\local\\local");
 		txtLocalProject.setDisable(true);
 		group.getSelectedToggle().setSelected(false);
+
+		UpdateView update = UpdateView.getInstance();
+
+		update.getControllerIDEView().updateProject();
 	}
 
 	@Override

@@ -53,11 +53,11 @@ public class DaoDBOcorrencia {
 				if (splitResult[i].contains(";")) {
 					String[] createOcorrencia = splitResult[i].split(";");
 
-					Endereco endereco = new Endereco(Integer.parseInt(createOcorrencia[3]), createOcorrencia[4],
-							createOcorrencia[5], createOcorrencia[6], createOcorrencia[7], createOcorrencia[8],
-							createOcorrencia[9], createOcorrencia[10], "");
+					Endereco endereco = new Endereco(Integer.parseInt(createOcorrencia[4]), createOcorrencia[5],
+							createOcorrencia[6], createOcorrencia[7], createOcorrencia[8], createOcorrencia[9],
+							createOcorrencia[10], createOcorrencia[11], "");
 					Ocorrencia ocorrencia = new Ocorrencia(Integer.parseInt(createOcorrencia[0]), createOcorrencia[1],
-							createOcorrencia[2], endereco);
+							createOcorrencia[2], createOcorrencia[3],endereco);
 
 					listOcorrencias.add(ocorrencia);
 
@@ -102,19 +102,31 @@ public class DaoDBOcorrencia {
 
 	}
 
-	public void addOcorrencia(Ocorrencia ocorrencia) {
-		EntityManager em = Conn.getEntityManager();
-		em.getTransaction().begin();
-		em.persist(ocorrencia);
-		em.getTransaction().commit();
-		em.close();
+	public void submitEditStatusOcorrenciaServer(String idOcorrencia, String status, String operation) {
+		try {
+			Socket server = new Socket(ipServer, portServer);
+			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
+			out.writeUTF("ocorrencia;" + operation + ";" + idOcorrencia + ";" + status);
+			out.flush();
+
+			ObjectInputStream in = new ObjectInputStream(server.getInputStream());
+			String resposta = in.readUTF();
+
+			if (resposta.contentEquals("Ok")) {
+				MessageAlert.mensagemRealizadoSucesso(StringUtility.completeOperation);
+			} else {
+				MessageAlert.mensagemErro(StringUtility.erro);
+			}
+
+			in.close();
+			out.close();
+			server.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
-	public void loadOcorrenciaBD() {
-		EntityManager em = Conn.getEntityManager();
-		listOcorrencias = em.createQuery("FROM Ocorrencia", Ocorrencia.class).getResultList();
-		em.close();
-	}
 
 	public void editOcorrencia(Ocorrencia ocorrencia) {
 
@@ -130,5 +142,4 @@ public class DaoDBOcorrencia {
 	public List<Ocorrencia> getListOcorrencias() {
 		return listOcorrencias;
 	}
-
 }

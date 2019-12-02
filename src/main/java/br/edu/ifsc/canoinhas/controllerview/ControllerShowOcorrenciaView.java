@@ -58,12 +58,6 @@ public class ControllerShowOcorrenciaView implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// preencherTabela();
-//		try {
-//			daoDBOcorrencia.getAllOcorrencia();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 		update();
 		preencherTabela();
 	}
@@ -115,14 +109,13 @@ public class ControllerShowOcorrenciaView implements Initializable {
 //		
 		daoDBOcorrencia = DaoDBOcorrencia.getInstance();
 
-		ocorrencia.setStatus(txtStatusOcorrencia.getText().trim());
-
 		if (ocorrencia != null) {
-			daoDBOcorrencia.editOcorrencia(ocorrencia);
-			txtStatusOcorrencia.setText("");
-			MessageAlert.mensagemRealizadoSucesso(StringUtility.ocorrenciaConcluido);
-		}
+			daoDBOcorrencia.submitEditStatusOcorrenciaServer(String.valueOf(ocorrencia.getId()), txtStatusOcorrencia.getText(), "edit");
 
+			txtStatusOcorrencia.setText("");
+
+		}
+		update();
 		preencherTabela();
 	}
 
