@@ -7,10 +7,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
 import br.edu.ifsc.canoinhas.entities.Empresa;
 import br.edu.ifsc.canoinhas.entities.Endereco;
-import br.edu.ifsc.canoinhas.modelDao.Conn;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 

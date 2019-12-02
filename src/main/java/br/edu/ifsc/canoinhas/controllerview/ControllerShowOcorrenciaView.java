@@ -8,6 +8,7 @@ import br.edu.ifsc.canoinhas.App;
 import br.edu.ifsc.canoinhas.entities.Endereco;
 import br.edu.ifsc.canoinhas.entities.Ocorrencia;
 import br.edu.ifsc.canoinhas.modelDao.controller.ocorrencia.DaoDBOcorrencia;
+import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateOcorrenciaServer;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.collections.FXCollections;
@@ -51,31 +52,47 @@ public class ControllerShowOcorrenciaView implements Initializable {
 	@FXML
 	private MenuItem menuItemBack;
 
-	private DaoDBOcorrencia controllerDBOcorrencia;
+	private DaoDBOcorrencia daoDBOcorrencia;
 
 	private Ocorrencia ocorrencia;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// preencherTabela();
+//		try {
+//			daoDBOcorrencia.getAllOcorrencia();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		update();
 		preencherTabela();
+	}
 
+	private void update() {
+
+		try {
+			Thread updateOcorrencia = new Thread(new UpdateOcorrenciaServer());
+			updateOcorrencia.start();
+			updateOcorrencia.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void preencherTabela() {
-		
+
 		tableViewOcorrencia.getItems().clear();
 
-		controllerDBOcorrencia = DaoDBOcorrencia.getInstance();
-		
+		daoDBOcorrencia = DaoDBOcorrencia.getInstance();
+
 		ObservableList<Ocorrencia> listOcorrencia = FXCollections.observableArrayList();
 
-		
 		tableColumnEndereco.setCellValueFactory(new PropertyValueFactory<Ocorrencia, Endereco>("endereco"));
 		tableColumnGravidade.setCellValueFactory(new PropertyValueFactory<Ocorrencia, String>("gravidade"));
 		tableColumnNomeVitima.setCellValueFactory(new PropertyValueFactory<Ocorrencia, String>("nomeVitima"));
 		tableColumnStatus.setCellValueFactory(new PropertyValueFactory<Ocorrencia, String>("status"));
 
-		for (Ocorrencia ocorrencia : controllerDBOcorrencia.getListOcorrencias()) {
+		for (Ocorrencia ocorrencia : daoDBOcorrencia.getListOcorrencias()) {
 			System.out.println(ocorrencia);
 			if (ocorrencia.getStatus().equals(StringUtility.ocorrenciaAndamento)) {
 				listOcorrencia.add(ocorrencia);
@@ -95,21 +112,21 @@ public class ControllerShowOcorrenciaView implements Initializable {
 	}
 
 	public void ocorrenciaComplete() {
-		
-		controllerDBOcorrencia = DaoDBOcorrencia.getInstance();
-		
+//		
+		daoDBOcorrencia = DaoDBOcorrencia.getInstance();
+
 		ocorrencia.setStatus(txtStatusOcorrencia.getText().trim());
-		
-		if(ocorrencia != null) {
-			controllerDBOcorrencia.editOcorrencia(ocorrencia);
+
+		if (ocorrencia != null) {
+			daoDBOcorrencia.editOcorrencia(ocorrencia);
 			txtStatusOcorrencia.setText("");
 			MessageAlert.mensagemRealizadoSucesso(StringUtility.ocorrenciaConcluido);
 		}
-		
+
 		preencherTabela();
 	}
-	
-	public  void back() {
+
+	public void back() {
 		try {
 			Stage myWin = (Stage) btnConcluirOcorrencia.getScene().getWindow();
 

@@ -64,7 +64,7 @@ public class ControllerOcorrenciaView {
 
 	private String gravidade;
 
-	private DaoDBOcorrencia controllerDBOcorrencia = DaoDBOcorrencia.getInstance();
+	private DaoDBOcorrencia daoDBOcorrencia = DaoDBOcorrencia.getInstance();
 
 	public void back() {
 
@@ -94,18 +94,10 @@ public class ControllerOcorrenciaView {
 		}
 
 		try {
-
-			Endereco endereco = new Endereco(txtRua.getText().trim(), txtBairro.getText().trim(),txtNumero.getText().trim(), txtTelefone.getText().trim(), txtComplemento.getText().trim(),
-					txtCEP.getText().trim(), txtCidade.getText().trim());
+			daoDBOcorrencia.submitOcorrenciaServer(txtNomeVitima.getText(), gravidade, txtRua.getText(),
+					txtBairro.getText(), txtNumero.getText(), txtTelefone.getText(), txtComplemento.getText(),
+					txtCEP.getText(), txtCidade.getText(), "add");
 			
-			//Endereco endereco1 = new Endereco(rua, bairro, numero, telefone, complemento, cep, cidade)
-
-			Ocorrencia ocorrencia = new Ocorrencia(txtNomeVitima.getText().trim(), gravidade, endereco);
-
-			controllerDBOcorrencia.addOcorrencia(ocorrencia);
-
-			MessageAlert.mensagemRealizadoSucesso(StringUtility.viaturaDeslocada);
-
 			cleanFields();
 
 		} catch (IllegalArgumentException e) {
