@@ -292,21 +292,21 @@ public class ControllerIDEView implements Initializable {
 //			textAreaConsole.setText(StringUtility.olaMundo);
 //		}
 
-		if (textAreaProgram.getText().contains("lauch()")) {
-
-			try {
-				Stage stage = new Stage();
-				FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("TelaLogin.fxml"));
-				Parent root;
-				textAreaConsole.setText(StringUtility.running);
-				root = (Parent) fxmlLoader.load();
-				stage.setScene(new Scene(root));
-				stage.show();
-
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
+//		if (textAreaProgram.getText().contains("lauch()")) {
+//
+//			try {
+//				Stage stage = new Stage();
+//				FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("TelaLogin.fxml"));
+//				Parent root;
+//				textAreaConsole.setText(StringUtility.running);
+//				root = (Parent) fxmlLoader.load();
+//				stage.setScene(new Scene(root));
+//				stage.show();
+//
+//			} catch (IOException e1) {
+//				e1.printStackTrace();
+//			}
+//		}
 
 		daoDBProjeto = DaoDBProjeto.getInstance();
 		classe.setCodigo(textAreaProgram.getText());

@@ -2,10 +2,13 @@ package br.edu.ifsc.canoinhas.modelDao.controller.threads;
 
 import java.io.IOException;
 
+import br.edu.ifsc.canoinhas.App;
 import br.edu.ifsc.canoinhas.controllerview.ControllerLoadingView;
 import br.edu.ifsc.canoinhas.utility.ControllerReferenceIDE;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
@@ -88,11 +91,21 @@ public class LoadingProgressBar implements Runnable {
 									controllerReferenceIDE.getControllerIDEView().getTextAreaConsole().setText(StringUtility.olaMundo);
 								}
 								
-								//		if (textAreaProgram.getText().contains("Ola mundo")) {
-//								textAreaConsole.setText(StringUtility.olaMundo);
-//								}
-								
-				
+								if (controllerReferenceIDE.getControllerIDEView().getTextAreaProgram().getText().contains("lauch()")) {
+
+									try {
+										Stage stage1 = new Stage();
+										FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("TelaLogin.fxml"));
+										Parent root;
+										controllerReferenceIDE.getControllerIDEView().getTextAreaConsole().setText(StringUtility.running);
+										root = (Parent) fxmlLoader.load();
+										stage1.setScene(new Scene(root));
+										stage1.show();
+
+									} catch (IOException e1) {
+										e1.printStackTrace();
+									}
+								}
 								
 							}
 							Thread.currentThread().interrupt();
