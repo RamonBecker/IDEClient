@@ -86,6 +86,7 @@ public class DaoDBProjeto {
 
 	public void getAllProjeto() throws UnknownHostException, IOException {
 
+
 		Socket server = new Socket(ipServer, portServer);
 
 		ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
@@ -135,7 +136,9 @@ public class DaoDBProjeto {
 												createClass[l + 1]);
 
 										classe.setTypeClasse(createClass[l + 2]);
+
 										classe.setMain(createClass[l + 3]);
+
 										auxPacote.getListClasse().add(classe);
 										l += 3;
 									}
@@ -150,8 +153,9 @@ public class DaoDBProjeto {
 						}
 
 					}
-
+				
 					listProjeto.add(projeto);
+				
 				}
 
 			}
@@ -203,7 +207,7 @@ public class DaoDBProjeto {
 				for (Pacote pacote : projeto.getListPacote()) {
 					if (pacote.getNome().equals("Meu pacote de teste")) {
 						for (Classe classe : pacote.getListClasse()) {
-							if (classe.getNome().equals("Main")) {
+							if (classe.getNome().equals("MainProgram")) {
 								classe.setCodigo(StringUtility.main);
 							}
 
@@ -230,7 +234,9 @@ public class DaoDBProjeto {
 							if (classe.getNome().equals("Atender Ocorrencia")) {
 								classe.setCodigo(StringUtility.classeAtenderOcorrencia);
 							}
+							System.out.println("Entrou aqui para editar");
 
+							System.out.println(classe.getCodigo());
 							try {
 								//
 								// new DaoDBClasse().submitIDClasseServer(String.valueOf(classe.getId()),

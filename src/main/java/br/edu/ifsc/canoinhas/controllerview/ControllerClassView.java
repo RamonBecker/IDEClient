@@ -6,6 +6,7 @@ import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBClasse;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
+import br.edu.ifsc.canoinhas.modelDao.controller.projeto.UpdateView;
 import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateProjetoServer;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import javafx.collections.FXCollections;
@@ -92,11 +93,11 @@ public class ControllerClassView implements Initializable {
 
 			clearFields();
 
-			Thread update = new Thread(new UpdateProjetoServer());
-			update.start();
-			update.join();
+			UpdateView update = UpdateView.getInstance();
 
-		} catch (IllegalArgumentException | InterruptedException e) {
+			update.getControllerIDEView().updateProject();
+
+		} catch (IllegalArgumentException e) {
 			MessageAlert.mensagemErro(e.getMessage());
 		}
 

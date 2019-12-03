@@ -7,6 +7,7 @@ import br.edu.ifsc.canoinhas.App;
 import br.edu.ifsc.canoinhas.entities.Projeto;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBPacote;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
+import br.edu.ifsc.canoinhas.modelDao.controller.projeto.UpdateView;
 import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateProjetoServer;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import javafx.collections.FXCollections;
@@ -96,6 +97,11 @@ public class ControllerPackageView implements Initializable {
 		}
 
 		cleanFields();
+		
+		UpdateView update = UpdateView.getInstance();
+
+		update.getControllerIDEView().updateProject();
+	
 
 	}
 

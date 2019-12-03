@@ -11,6 +11,7 @@ import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBClasse;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.DaoDBProjeto;
 import br.edu.ifsc.canoinhas.modelDao.controller.projeto.UpdateView;
 import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateProjetoServer;
+import br.edu.ifsc.canoinhas.utility.ControllerReferenceIDE;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -118,7 +119,6 @@ public class ControllerIDEView implements Initializable {
 			root = (Parent) fxmlLoader.load();
 			stage.setScene(new Scene(root));
 			stage.show();
-			
 
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -163,7 +163,20 @@ public class ControllerIDEView implements Initializable {
 
 	public void updateProject() {
 
+		try {
+
+			Thread updateProjeto = new Thread(new UpdateProjetoServer());
+
+			updateProjeto.start();
+
+			updateProjeto.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		daoDBProjeto = DaoDBProjeto.getInstance();
+
+		daoDBProjeto.processFirstProjeto();
 
 		columnProjeto.setCellValueFactory(new PropertyValueFactory<Projeto, String>("nome"));
 
@@ -172,7 +185,6 @@ public class ControllerIDEView implements Initializable {
 		listProjeto.addAll(daoDBProjeto.getListProjeto());
 
 		tableProjeto.setItems(listProjeto);
-
 	}
 
 	public void actionTableProject() {
@@ -212,14 +224,17 @@ public class ControllerIDEView implements Initializable {
 
 		btnBackPackage.setDisable(false);
 		for (Classe classe : pacote.getListClasse()) {
+			if (!classe.getNome().contains("MainProgram")) {
+				classe.setCodigoClasse(classe.getMain(), classe.getTypeClasse());
+			}
 
-			classe.setCodigoClasse(classe.getMain(), classe.getTypeClasse());
 			try {
 				new DaoDBClasse().submitCodigoEditClasseServer(String.valueOf(classe.getId()), classe.getCodigo(),
 						"editCodigo");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+
 		}
 	}
 
@@ -252,9 +267,30 @@ public class ControllerIDEView implements Initializable {
 
 	public void runClass() {
 
-		if (textAreaProgram.getText().contains("Ola mundo")) {
-			textAreaConsole.setText(StringUtility.olaMundo);
+		ControllerLoadingView.view = "Run";
+
+		FXMLLoader fxmlLoaderteste = null;
+
+		fxmlLoaderteste = new FXMLLoader(App.class.getResource("TelaCarregamento.fxml"));
+
+		Parent parent;
+		try {
+			parent = fxmlLoaderteste.load();
+			Scene newScene = new Scene(parent);
+			Stage newStage = new Stage();
+			newStage.setScene(newScene);
+			newStage.show();
+		} catch (IOException e2) {
+			e2.printStackTrace();
 		}
+
+		ControllerReferenceIDE controllerReferenceIDE = ControllerReferenceIDE.getInstace();
+
+		controllerReferenceIDE.setControllerIDEView(this);
+//		
+//		if (textAreaProgram.getText().contains("Ola mundo")) {
+//			textAreaConsole.setText(StringUtility.olaMundo);
+//		}
 
 		if (textAreaProgram.getText().contains("lauch()")) {
 
@@ -324,19 +360,22 @@ public class ControllerIDEView implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		daoDBProjeto = DaoDBProjeto.getInstance();
-		updateProjectDB();
+		updateProject();
 		daoDBProjeto.processFirstProjeto();
 		updateProject();
+
 	}
 
-	private void updateProjectDB() {
-
-		try {
-			Thread updateThread = new Thread(new UpdateProjetoServer());
-			updateThread.start();
-			updateThread.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	public TextArea getTextAreaProgram() {
+		return textAreaProgram;
 	}
+
+	public void setTextAreaProgram(TextArea textAreaProgram) {
+		this.textAreaProgram = textAreaProgram;
+	}
+
+	public TextArea getTextAreaConsole() {
+		return textAreaConsole;
+	}
+
 }
