@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import br.edu.ifsc.canoinhas.App;
 import br.edu.ifsc.canoinhas.modelDao.controller.threads.UpdateUsuarioServer;
 import br.edu.ifsc.canoinhas.modelDao.controller.usuario.DaoDBUsuario;
+import br.edu.ifsc.canoinhas.utility.ControllerReferenceIDE;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.fxml.FXML;
@@ -52,29 +53,24 @@ public class ControllerLoginView implements Initializable {
 
 	public void login() {
 
-		DaoDBUsuario controllerDBUsuario = DaoDBUsuario.getInstance();
+		ControllerReferenceIDE controllerReferenceIDE = ControllerReferenceIDE.getInstace();
+		controllerReferenceIDE.setControllerLogin(this);
 
+		ControllerLoadingView.view = "Logar";
+
+		FXMLLoader fxmlLoaderteste = null;
+
+		fxmlLoaderteste = new FXMLLoader(App.class.getResource("TelaCarregamento.fxml"));
+
+		Parent parent;
 		try {
-			if (controllerDBUsuario.login(txtuserName.getText().trim(), txtSenha.getText().trim())) {
-
-				Stage myWin = (Stage) btnLogin.getScene().getWindow();
-
-				Stage stage = new Stage();
-				FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("TelaPrincipalProgram.fxml"));
-				Parent root;
-
-				root = (Parent) fxmlLoader.load();
-				stage.setScene(new Scene(root));
-				stage.show();
-				myWin.close();
-			} else {
-				MessageAlert.mensagemErro(StringUtility.loginIncorret);
-				cleanFields();
-			}
-
-		} catch (IOException e) {
-			MessageAlert.mensagemErro(e.getMessage());
-			e.printStackTrace();
+			parent = fxmlLoaderteste.load();
+			Scene newScene = new Scene(parent);
+			Stage newStage = new Stage();
+			newStage.setScene(newScene);
+			newStage.show();
+		} catch (IOException e2) {
+			e2.printStackTrace();
 		}
 	}
 
@@ -101,9 +97,23 @@ public class ControllerLoginView implements Initializable {
 		}
 	}
 
-	private void cleanFields() {
+	public void cleanFields() {
 		txtSenha.setText("");
 		txtuserName.setText("");
 	}
+
+	public Button getBtnLogin() {
+		return btnLogin;
+	}
+
+	public TextField getTxtuserName() {
+		return txtuserName;
+	}
+
+	public PasswordField getTxtSenha() {
+		return txtSenha;
+	}
+	
+	
 
 }

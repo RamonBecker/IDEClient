@@ -7,10 +7,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
 import br.edu.ifsc.canoinhas.entities.Endereco;
 import br.edu.ifsc.canoinhas.entities.Ocorrencia;
-import br.edu.ifsc.canoinhas.modelDao.Conn;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 
@@ -57,14 +55,13 @@ public class DaoDBOcorrencia {
 							createOcorrencia[6], createOcorrencia[7], createOcorrencia[8], createOcorrencia[9],
 							createOcorrencia[10], createOcorrencia[11], "");
 					Ocorrencia ocorrencia = new Ocorrencia(Integer.parseInt(createOcorrencia[0]), createOcorrencia[1],
-							createOcorrencia[2], createOcorrencia[3],endereco);
+							createOcorrencia[2], createOcorrencia[3], endereco);
 
 					listOcorrencias.add(ocorrencia);
 
 				}
 			}
 		}
-		System.out.println(listOcorrencias);
 		in.close();
 		out.close();
 		server.close();
@@ -124,18 +121,6 @@ public class DaoDBOcorrencia {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-	}
-
-
-	public void editOcorrencia(Ocorrencia ocorrencia) {
-
-		EntityManager em = Conn.getEntityManager();
-		em.getTransaction().begin();
-		Ocorrencia ocorrenciaSearch = em.find(Ocorrencia.class, ocorrencia.getId());
-		ocorrenciaSearch.setStatus(ocorrencia.getStatus());
-		em.getTransaction().commit();
-		em.close();
 
 	}
 

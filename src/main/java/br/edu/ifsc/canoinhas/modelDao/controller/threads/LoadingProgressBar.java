@@ -4,7 +4,9 @@ import java.io.IOException;
 
 import br.edu.ifsc.canoinhas.App;
 import br.edu.ifsc.canoinhas.controllerview.ControllerLoadingView;
+import br.edu.ifsc.canoinhas.modelDao.controller.usuario.DaoDBUsuario;
 import br.edu.ifsc.canoinhas.utility.ControllerReferenceIDE;
+import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -24,13 +26,10 @@ public class LoadingProgressBar implements Runnable {
 		this.controllerLoadingView = controllerLoadingView;
 	}
 
-//	public void setView(String view) {
-//		this.view = view;
-//	}
-
 	@Override
 	public void run() {
 		try {
+
 			for (int i = 0; i < 100; i++) {
 				double value = controllerLoadingView.getProgressBar().getProgress();
 				value += 0.20;
@@ -49,6 +48,12 @@ public class LoadingProgressBar implements Runnable {
 						controllerLoadingView.getLabelBuscarDados().setVisible(false);
 						controllerLoadingView.getLbCriandoProjeto().setVisible(true);
 					}
+
+					if (ControllerLoadingView.view.equals("Logar")) {
+
+						controllerLoadingView.getLabelBuscarDados().setVisible(true);
+						// controllerLoadingView.getLbVerificaUsuario().setVisible(false);
+					}
 				}
 
 				if (controllerLoadingView.getProgressBar().getProgress() == 0.8) {
@@ -59,6 +64,12 @@ public class LoadingProgressBar implements Runnable {
 					if (ControllerLoadingView.view.equals("Run")) {
 						controllerLoadingView.getLbCriandoProjeto().setVisible(false);
 						controllerLoadingView.getLblExecutandoPrograma().setVisible(true);
+					}
+
+					if (ControllerLoadingView.view.equals("Logar")) {
+
+						// controllerLoadingView.getLbVerificaUsuario().setVisible(false);
+						// controllerLoadingView.getLblEntrandoSIstema().setVisible(true);
 					}
 				}
 
@@ -84,20 +95,24 @@ public class LoadingProgressBar implements Runnable {
 								Scene scene = controllerLoadingView.getBtnCancelar().getScene();
 								Stage stage = (Stage) scene.getWindow();
 								stage.close();
-								
+
 								ControllerReferenceIDE controllerReferenceIDE = ControllerReferenceIDE.getInstace();
-								
-								if(controllerReferenceIDE.getControllerIDEView().getTextAreaProgram().getText().contains("Ola mundo")){
-									controllerReferenceIDE.getControllerIDEView().getTextAreaConsole().setText(StringUtility.olaMundo);
+
+								if (controllerReferenceIDE.getControllerIDEView().getTextAreaProgram().getText()
+										.contains("Ola mundo")) {
+									controllerReferenceIDE.getControllerIDEView().getTextAreaConsole()
+											.setText(StringUtility.olaMundo);
 								}
-								
-								if (controllerReferenceIDE.getControllerIDEView().getTextAreaProgram().getText().contains("lauch()")) {
+
+								if (controllerReferenceIDE.getControllerIDEView().getTextAreaProgram().getText()
+										.contains("lauch()")) {
 
 									try {
 										Stage stage1 = new Stage();
 										FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("TelaLogin.fxml"));
 										Parent root;
-										controllerReferenceIDE.getControllerIDEView().getTextAreaConsole().setText(StringUtility.running);
+										controllerReferenceIDE.getControllerIDEView().getTextAreaConsole()
+												.setText(StringUtility.running);
 										root = (Parent) fxmlLoader.load();
 										stage1.setScene(new Scene(root));
 										stage1.show();
@@ -106,7 +121,49 @@ public class LoadingProgressBar implements Runnable {
 										e1.printStackTrace();
 									}
 								}
-								
+
+							}
+
+							if (ControllerLoadingView.view.equals("Logar")) {
+
+								DaoDBUsuario controllerDBUsuario = DaoDBUsuario.getInstance();
+								ControllerReferenceIDE controllerReferenceIDE = ControllerReferenceIDE.getInstace();
+
+								try {
+									if (controllerDBUsuario.login(
+											controllerReferenceIDE.getControllerLogin().getTxtuserName().getText(),
+											controllerReferenceIDE.getControllerLogin().getTxtSenha().getText()
+													.trim())) {
+
+										Stage myWin = (Stage) controllerReferenceIDE.getControllerLogin().getBtnLogin()
+												.getScene().getWindow();
+
+										myWin.close();
+
+										controllerLoadingView.close();
+										Stage stage = new Stage();
+
+										FXMLLoader fxmlLoader = new FXMLLoader(
+												App.class.getResource("TelaPrincipalProgram.fxml"));
+
+										Parent root;
+
+										root = (Parent) fxmlLoader.load();
+										stage.setScene(new Scene(root));
+										stage.show();
+
+									} else {
+
+										controllerLoadingView.getBtnIniciarNovamente().setVisible(true);
+										MessageAlert.mensagemErro(StringUtility.loginIncorret);
+										Thread.currentThread().interrupt();
+									}
+
+								} catch (IOException e) {
+									Thread.currentThread().interrupt();
+
+									e.printStackTrace();
+								}
 							}
 							Thread.currentThread().interrupt();
 						} catch (IOException | InterruptedException e) {
@@ -133,9 +190,5 @@ public class LoadingProgressBar implements Runnable {
 	public Thread getUpdateProjeto() {
 		return updateProjeto;
 	}
-
-//	public String getView() {
-//		return view;
-//	}
 
 }

@@ -47,6 +47,12 @@ public class ControllerLoadingView implements Initializable {
 	@FXML
 	private Label lblExecutandoPrograma;
 
+	@FXML
+	private Label lbVerificaUsuario;
+
+	@FXML
+	private Label lblEntrandoSIstema;
+
 	private Thread loading;
 
 	private LoadingProgressBar progress;
@@ -74,6 +80,7 @@ public class ControllerLoadingView implements Initializable {
 			btnCancelar.setVisible(false);
 			btnIniciarNovamente.setVisible(true);
 			loading.interrupt();
+			Thread.currentThread().interrupt();
 		}
 	}
 
@@ -96,6 +103,15 @@ public class ControllerLoadingView implements Initializable {
 			btnIniciarNovamente.setVisible(false);
 			progress = new LoadingProgressBar(this);
 		}
+		if (ControllerLoadingView.view.equals("Logar")) {
+
+			labelInterrompeu.setVisible(false);
+			labelBuscarDados.setVisible(true);
+			btnIniciarNovamente.setVisible(false);
+			progress = new LoadingProgressBar(this);
+			btnCancelar.setVisible(true);
+		}
+
 		loading = new Thread(progress);
 		loading.start();
 	}
@@ -113,6 +129,13 @@ public class ControllerLoadingView implements Initializable {
 		Stage newStage = new Stage();
 		newStage.setScene(newScene);
 		newStage.show();
+	}
+
+	public void close() {
+		Scene scene = progressBar.getScene();
+		Stage stage = (Stage) scene.getWindow();
+		stage.close();
+
 	}
 
 	public Button getBtnCancelar() {
@@ -149,6 +172,18 @@ public class ControllerLoadingView implements Initializable {
 
 	public Thread getLoading() {
 		return loading;
+	}
+
+	public Label getLbVerificaUsuario() {
+		return lbVerificaUsuario;
+	}
+
+	public Label getLblEntrandoSIstema() {
+		return lblEntrandoSIstema;
+	}
+
+	public Button getBtnIniciarNovamente() {
+		return btnIniciarNovamente;
 	}
 
 }

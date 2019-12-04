@@ -11,7 +11,6 @@ import javax.persistence.EntityManager;
 import br.edu.ifsc.canoinhas.entities.Classe;
 import br.edu.ifsc.canoinhas.entities.Pacote;
 import br.edu.ifsc.canoinhas.entities.Projeto;
-import br.edu.ifsc.canoinhas.modelDao.Conn;
 import br.edu.ifsc.canoinhas.utility.MessageAlert;
 import br.edu.ifsc.canoinhas.utility.StringUtility;
 
@@ -171,33 +170,6 @@ public class DaoDBProjeto {
 
 	public List<Projeto> getListProjeto() {
 		return listProjeto;
-	}
-
-	public void updateClasse(Projeto projeto, Pacote pacote, String nameClass, Boolean main, String typeClasse) {
-		if (projeto != null && pacote != null) {
-
-			EntityManager em = Conn.getEntityManager();
-			em.getTransaction().begin();
-
-			Projeto searchProjeto = em.find(Projeto.class, projeto.getId());
-			// if (update.equals("Pacote")) {
-			Pacote searchPacote = null;
-
-			for (Pacote listPacote : searchProjeto.getListPacote()) {
-				if (listPacote.getNome().equals(pacote.getNome())) {
-					searchPacote = listPacote;
-					break;
-				}
-			}
-
-			searchPacote.addClass(nameClass, main, typeClasse);
-
-			em.getTransaction().commit();
-			em.close();
-
-		} else {
-			MessageAlert.mensagemErro(StringUtility.projectNull);
-		}
 	}
 
 	public void processFirstProjeto() {
