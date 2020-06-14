@@ -1,4 +1,4 @@
-# ProjetoEclipseNew
+# IDEClient
 
 Projeto desenvolvido para disciplina de Programa Orientada a Objetos.
 
